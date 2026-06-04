@@ -61,7 +61,7 @@ export function GeradorNomes() {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-2">
               <Label>Gênero</Label>
-              <Select value={genero} onValueChange={setGenero}>
+              <Select value={genero} onValueChange={(v) => setGenero(v ?? genero)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
