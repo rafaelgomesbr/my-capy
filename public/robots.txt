@@ -7,7 +7,7 @@ User-agent: *
 Disallow: /api/
 
 # Host
-Host: https://toolhub.com.br
+Host: https://mycapy.app
 
 # Sitemaps
-Sitemap: https://toolhub.com.br/sitemap.xml
+Sitemap: https://mycapy.app/sitemap.xml

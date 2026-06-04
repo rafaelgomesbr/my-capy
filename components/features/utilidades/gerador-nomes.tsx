@@ -75,7 +75,7 @@ export function GeradorNomes() {
 
             <div className="space-y-2">
               <Label>Quantidade</Label>
-              <Select value={quantidade} onValueChange={setQuantidade}>
+              <Select value={quantidade} onValueChange={(v) => setQuantidade(v ?? quantidade)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
