@@ -1,0 +1,960 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolHub — Preview Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      oklch(99% 0.002 240);
+    --surface: oklch(100% 0 0);
+    --fg:      oklch(18% 0.012 250);
+    --muted:   oklch(54% 0.012 250);
+    --border:  oklch(92% 0.005 250);
+    --hover-bg: oklch(95% 0.004 250);
+    --accent:  oklch(58% 0.18 255);
+    --accent-hover: oklch(53% 0.19 255);
+    --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --radius: 8px;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: oklch(99% 0.002 240 / 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    gap: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--fg);
+    opacity: 1;
+    transition: opacity 0.15s;
+  }
+  .logo:hover { opacity: 0.7; }
+
+  .logo-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+  }
+
+  .logo-text {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  nav a {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+  nav a:hover, nav a.active { color: var(--fg); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted);
+    transition: color 0.12s, background 0.12s;
+  }
+  .icon-btn:hover { color: var(--fg); background: var(--hover-bg); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    padding: 80px 0 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 100% 50% at 50% -5%, oklch(58% 0.18 255 / 6%), transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .kicker {
+    font-family: ui-monospace, 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--fg);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, oklch(58% 0.18 255), oklch(62% 0.16 230));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 20px;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 0.15s;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--muted);
+    text-align: left;
+  }
+  .search-bar:hover { border-color: oklch(58% 0.18 255 / 40%); }
+
+  .search-icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .search-hint {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: var(--hover-bg);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-left: auto;
+  }
+
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.12s;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+  .btn-ghost:hover { color: var(--fg); }
+
+  /* Stats strip */
+  .stats-strip {
+    border-top: 1px solid var(--border);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 12px;
+    border-right: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--fg);
+    transition: color 0.12s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { color: var(--accent); }
+
+  .stat-num {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    border-bottom: 1px solid var(--border);
+    padding: 32px 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .feature-icon { width: 14px; height: 14px; flex-shrink: 0; color: var(--accent); margin-top: 2px; }
+
+  .feature-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .feature-desc  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── SECTIONS ── */
+  section.content { padding: 64px 0; }
+  section.content + section.content { border-top: 1px solid var(--border); }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .section-kicker {
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--fg);
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .see-all {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.12s;
+    flex-shrink: 0;
+  }
+  .see-all:hover { color: var(--fg); }
+
+  /* ── CATEGORY CARDS ── */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  .cat-card, .tool-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    text-decoration: none;
+    color: var(--fg);
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+  .cat-card:hover, .tool-card:hover {
+    border-color: oklch(88% 0.005 250);
+    background: var(--hover-bg);
+  }
+
+  .cat-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .cat-icon { width: 14px; height: 14px; }
+  .cat-count {
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .cat-name {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    transition: color 0.12s;
+  }
+  .cat-card:hover .cat-name { color: var(--accent); }
+
+  .cat-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cat-cta {
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.12s;
+  }
+  .cat-card:hover .cat-cta { color: var(--accent); }
+
+  /* ── TOOL CARDS ── */
+  .tool-card { padding: 16px; }
+
+  .tool-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .tool-icon { width: 14px; height: 14px; }
+
+  .tool-badge {
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: oklch(62% 0.12 75);
+  }
+  .tool-badge.new-badge { color: var(--accent); }
+
+  .tool-name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    transition: color 0.12s;
+  }
+  .tool-card:hover .tool-name { color: var(--accent); }
+
+  .tool-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    margin-top: 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--fg);
+    margin-bottom: 10px;
+  }
+
+  .footer-about { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .footer-heading {
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+  .footer-links a:hover { color: var(--fg); }
+
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-copy { font-size: 11px; color: var(--muted); }
+
+  /* ── SVG ICONS (inline) ── */
+  svg { display: block; }
+
+  /* Dark mode toggle preview badge */
+  .preview-badge {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: var(--fg);
+    color: var(--bg);
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 6px 10px;
+    border-radius: 4px;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <svg class="logo-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.8 2.4a2.4 2.4 0 0 0-3.6 2.8L3 11.4A1.2 1.2 0 0 0 4.6 13l6.2-6.2a2.4 2.4 0 0 0 2-.4Z"/>
+          <circle cx="3.8" cy="12.2" r=".6" fill="currentColor"/>
+        </svg>
+        <span class="logo-text">ToolHub</span>
+      </a>
+
+      <nav>
+        <a href="#" class="active">Início</a>
+        <a href="#">Ferramentas</a>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Buscar">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="7" cy="7" r="4.5"/>
+            <path d="m10.5 10.5 2.5 2.5"/>
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Tema">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="8" cy="8" r="3"/>
+            <path d="M8 1v1M8 14v1M1 8h1M14 8h1M3.05 3.05l.7.7M12.25 12.25l.7.7M12.95 3.05l-.7.7M3.75 12.25l-.7.7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <p class="kicker">94+ ferramentas gratuitas</p>
+
+      <h1>
+        Ferramentas online para<br>
+        <span class="gradient-text">qualquer desafio</span>
+      </h1>
+
+      <p class="hero-desc">
+        Calculadoras financeiras, conversores, ferramentas de texto,<br>
+        estudos e muito mais. Tudo gratuito, sem cadastro.
+      </p>
+
+      <div class="search-bar">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 2.5 2.5"/>
+        </svg>
+        <span style="flex:1">Buscar entre 90+ ferramentas...</span>
+        <span class="search-hint">⌘K</span>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#" class="btn-primary">
+          Explorar ferramentas
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+        <a href="#" class="btn-ghost">Calculadoras financeiras</a>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="stats-strip">
+      <div class="stats-grid">
+        <a href="#" class="stat-item">
+          <span class="stat-num">31</span>
+          <span class="stat-label">Finanças</span>
+        </a>
+        <a href="#" class="stat-item">
+          <span class="stat-num">10</span>
+          <span class="stat-label">Texto</span>
+        </a>
+        <a href="#" class="stat-item">
+          <span class="stat-num">8</span>
+          <span class="stat-label">Conversores</span>
+        </a>
+        <a href="#" class="stat-item">
+          <span class="stat-num">9</span>
+          <span class="stat-label">Estudos</span>
+        </a>
+        <a href="#" class="stat-item">
+          <span class="stat-num">10</span>
+          <span class="stat-label">Criadores</span>
+        </a>
+        <a href="#" class="stat-item">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Utilidades</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<div class="features">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 1.5"/>
+        </svg>
+        <div>
+          <p class="feature-title">Instantâneo</p>
+          <p class="feature-desc">Sem login, sem cadastro. Acesse qualquer ferramenta em menos de 3 segundos.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M8 2 3 4.5v4C3 11.5 8 14 8 14s5-2.5 5-5.5v-4L8 2Z"/>
+        </svg>
+        <div>
+          <p class="feature-title">100% Privado</p>
+          <p class="feature-desc">Tudo roda no seu navegador. Nenhum dado é enviado para nossos servidores.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="8" cy="8" r="6"/><path d="M2 8h12M8 2a9 9 0 0 1 0 12M8 2a9 9 0 0 0 0 12"/>
+        </svg>
+        <div>
+          <p class="feature-title">Qualquer Dispositivo</p>
+          <p class="feature-desc">Otimizado para celular, tablet e desktop. Funciona em qualquer tela.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CATEGORIES ── -->
+<section class="content">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="section-kicker">Categorias</p>
+        <h2>Tudo que você precisa</h2>
+        <p class="section-sub">6 categorias · 94 ferramentas</p>
+      </div>
+      <a href="#" class="see-all">
+        Ver todas
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid-3">
+      <!-- Finanças -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(50% 0.15 145)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <polyline points="1 11 5 7 9 9 15 3"/><path d="M15 3v4M15 3h-4"/>
+          </svg>
+          <span class="cat-count">31</span>
+        </div>
+        <p class="cat-name">Finanças</p>
+        <p class="cat-desc">Calculadoras financeiras para investimentos, empréstimos, salários e muito mais</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <!-- Texto -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(55% 0.15 240)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M3 4h10M3 8h10M3 12h6"/>
+          </svg>
+          <span class="cat-count">10</span>
+        </div>
+        <p class="cat-name">Texto</p>
+        <p class="cat-desc">Ferramentas para manipular, formatar e transformar textos e dados</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <!-- Conversores -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(55% 0.18 290)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M5 4l-4 4 4 4M11 4l4 4-4 4"/>
+          </svg>
+          <span class="cat-count">8</span>
+        </div>
+        <p class="cat-name">Conversores</p>
+        <p class="cat-desc">Converta unidades de medida, temperatura, peso, moeda e muito mais</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <!-- Estudos -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(60% 0.14 65)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M1 6l7-3 7 3-7 3-7-3ZM4 7.5v3c0 1 1.8 2 4 2s4-1 4-2v-3"/>
+          </svg>
+          <span class="cat-count">9</span>
+        </div>
+        <p class="cat-name">Estudos</p>
+        <p class="cat-desc">Calculadoras matemáticas para estudantes e profissionais</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <!-- Criadores -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(60% 0.18 335)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M8 2 9.5 6h4L10 8.5l1.5 4L8 10l-3.5 2.5L6 8.5 2.5 6h4L8 2Z"/>
+          </svg>
+          <span class="cat-count">10</span>
+        </div>
+        <p class="cat-name">Criadores</p>
+        <p class="cat-desc">Geradores de conteúdo para redes sociais e marketing digital</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <!-- Utilidades -->
+      <a href="#" class="cat-card">
+        <div class="cat-card-top">
+          <svg class="cat-icon" style="color:oklch(50% 0.008 250)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M12.8 2.4a2.4 2.4 0 0 0-3.6 2.8L3 11.4A1.2 1.2 0 0 0 4.6 13l6.2-6.2a2.4 2.4 0 0 0 2-.4Z"/>
+          </svg>
+          <span class="cat-count">5</span>
+        </div>
+        <p class="cat-name">Utilidades</p>
+        <p class="cat-desc">Ferramentas práticas do dia a dia para produtividade e segurança</p>
+        <div class="cat-cta">Ver ferramentas <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── POPULAR TOOLS ── -->
+<section class="content" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="section-kicker">Mais usadas</p>
+        <h2>Ferramentas populares</h2>
+        <p class="section-sub">As mais acessadas pelos nossos usuários</p>
+      </div>
+      <a href="#" class="see-all">
+        Ver todas
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid-4">
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(50% 0.15 145)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1 11 5 7 9 9 15 3"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Simulador de Investimentos</p>
+        <p class="tool-desc">Simule o crescimento do seu patrimônio com juros compostos e aportes mensais.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(50% 0.15 145)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1 11 5 7 9 9 15 3"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Calculadora de Juros Compostos</p>
+        <p class="tool-desc">Calcule o rendimento de aplicações financeiras com juros compostos.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(55% 0.15 240)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 4h10M3 8h10M3 12h6"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Ferramentas JSON</p>
+        <p class="tool-desc">Formate, valide e minifique JSON com facilidade.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(55% 0.18 290)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 4l-4 4 4 4M11 4l4 4-4 4"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Conversor de Moedas</p>
+        <p class="tool-desc">Converta valores entre mais de 150 moedas com taxas atualizadas.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(50% 0.15 145)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1 11 5 7 9 9 15 3"/></svg>
+          <span class="tool-badge new-badge">Novo</span>
+        </div>
+        <p class="tool-name">Calculadora de ROI</p>
+        <p class="tool-desc">Calcule o retorno sobre investimento das suas ações e campanhas.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(60% 0.18 335)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 2 9.5 6h4L10 8.5l1.5 4L8 10l-3.5 2.5L6 8.5 2.5 6h4L8 2Z"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Gerador de Bio Instagram</p>
+        <p class="tool-desc">Crie bios profissionais e criativas para o seu perfil do Instagram.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(50% 0.008 250)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12.8 2.4a2.4 2.4 0 0 0-3.6 2.8L3 11.4A1.2 1.2 0 0 0 4.6 13l6.2-6.2a2.4 2.4 0 0 0 2-.4Z"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Gerador de Senhas</p>
+        <p class="tool-desc">Gere senhas seguras e aleatórias com configurações personalizadas.</p>
+      </a>
+      <a href="#" class="tool-card">
+        <div class="tool-top">
+          <svg class="tool-icon" style="color:oklch(55% 0.15 240)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 4h10M3 8h10M3 12h6"/></svg>
+          <span class="tool-badge">Popular</span>
+        </div>
+        <p class="tool-name">Contador de Palavras</p>
+        <p class="tool-desc">Conte palavras, caracteres e parágrafos em tempo real.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="content" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div style="max-width:480px; margin:0 auto; text-align:center">
+      <h2>Pronto para começar?</h2>
+      <p style="font-size:13px; color:var(--muted); line-height:1.65; margin:10px 0 28px">
+        Acesse todas as ferramentas gratuitamente. Sem cadastro, sem limite, para sempre.
+      </p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap">
+        <a href="#" class="btn-primary">
+          Explorar todas as ferramentas
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="#" class="btn-ghost">Sugerir ferramenta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="footer-logo">
+          <svg width="14" height="14" style="color:var(--accent)" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.8 2.4a2.4 2.4 0 0 0-3.6 2.8L3 11.4A1.2 1.2 0 0 0 4.6 13l6.2-6.2a2.4 2.4 0 0 0 2-.4Z"/>
+          </svg>
+          <span class="logo-text">ToolHub</span>
+        </a>
+        <p class="footer-about">Ferramentas gratuitas e online para facilitar o seu dia a dia. Sem cadastro, sem complicação.</p>
+      </div>
+
+      <div>
+        <p class="footer-heading">Links</p>
+        <ul class="footer-links">
+          <li><a href="#">Início</a></li>
+          <li><a href="#">Todas as Ferramentas</a></li>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-heading">Categorias</p>
+        <ul class="footer-links">
+          <li><a href="#">Finanças</a></li>
+          <li><a href="#">Texto</a></li>
+          <li><a href="#">Conversores</a></li>
+          <li><a href="#">Estudos</a></li>
+          <li><a href="#">Criadores</a></li>
+          <li><a href="#">Utilidades</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-heading">Legal</p>
+        <ul class="footer-links">
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 ToolHub. Todos os direitos reservados.</p>
+      <p class="footer-copy">Feito com dedicação para ajudar você</p>
+    </div>
+  </div>
+</footer>
+
+<div class="preview-badge">PREVIEW VISUAL</div>
+
+</body>
+</html>

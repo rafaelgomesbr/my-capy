@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /api/
+
+# Host
+Host: https://toolhub.com.br
+
+# Sitemaps
+Sitemap: https://toolhub.com.br/sitemap.xml
