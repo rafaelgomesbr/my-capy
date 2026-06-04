@@ -70,14 +70,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning className={`${plusJakartaSans.variable} ${geistMono.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
-        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && !process.env.NEXT_PUBLIC_ADSENSE_CLIENT.includes("XXXX") && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2569605614210933"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Providers>
           <Header />
           <div id="main-content" className="flex-1">{children}</div>
