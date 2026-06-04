@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Header } from "@/components/layout/header";
@@ -69,13 +68,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning className={`${plusJakartaSans.variable} ${geistMono.variable}`}>
-      <body className="flex min-h-screen flex-col antialiased">
-        <Script
+      <head>
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2569605614210933"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
+      </head>
+      <body className="flex min-h-screen flex-col antialiased">
         <Providers>
           <Header />
           <div id="main-content" className="flex-1">{children}</div>
