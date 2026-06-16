@@ -12,7 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-nome-canal")!;
 const faqs = [
-  { question: "Como escolher um bom nome para canal?", answer: "Escolha um nome que reflita o nicho, seja fácil de pronunciar, memorável e único. Verifique disponibilidade no YouTube, Instagram e como domínio .com.br." },
+  { question: "Como escolher um bom nome para canal?", answer: "Escolha um nome que reflita o nicho, seja fácil de pronunciar, memorável e único. Verifique disponibilidade no YouTube, Instagram e como domínio .com.br. Um bom nome deve fazer sentido mesmo sem saber o nicho do canal — ex: 'Primo Rico' comunica finanças e personalidade ao mesmo tempo." },
+  { question: "Devo usar meu nome pessoal ou um nome de marca?", answer: "Depende do objetivo. Nome pessoal cria conexão e é mais fácil de humanizar, mas limita caso queira vender o canal futuramente. Nome de marca é mais profissional e escalável, mas exige mais esforço para criar identidade. Muitos criadores de sucesso usam os dois (nome próprio + apelido de marca)." },
+  { question: "O nome do canal afeta o SEO no YouTube?", answer: "Sim. Ter palavras-chave do nicho no nome do canal ajuda na descoberta. 'Canal do Cozinheiro' tende a aparecer mais em buscas de culinária do que 'Canal do Carlos'. No entanto, nomes muito genéricos ficam difíceis de diferenciar. Equilíbrio é a chave." },
+  { question: "Posso mudar o nome do canal depois?", answer: "Sim, tanto no YouTube quanto no TikTok você pode alterar o nome do canal. Porém, mudanças frequentes confundem o algoritmo e o público. Se seu canal já tem seguidores, comunique a mudança com antecedência e mantenha o mesmo estilo visual para facilitar a transição." },
+  { question: "Como verificar se o nome está disponível em todas as plataformas?", answer: "Use serviços como Namechk ou instantusername.com para verificar a disponibilidade de um username em dezenas de plataformas simultaneamente. Também verifique domínios (.com.br) no Registro.br e marcas no INPI antes de consolidar o nome escolhido." },
 ];
 
 export function GeradorNomeCanal() {
@@ -52,7 +56,39 @@ Regras:
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 8 sugestões de nome para canal com 2-4 palavras cada, priorizando nomes
+            fáceis de pronunciar, memoráveis e distintos. A IA mistura estilos: pessoal (usando seu
+            nome), temático (focado no nicho), aspiracional (transmite transformação) e de autoridade
+            (transmite expertise).
+          </p>
+          <p>
+            Os nomes são adaptados para a plataforma: YouTube e TikTok preferem nomes curtos e
+            enérgicos; podcasts aceitam nomes mais conceituais; newsletters podem ser mais
+            sofisticadas. Inclua seu nome se quiser opções personalizadas — a IA vai combiná-lo
+            criativamente com o tema.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estilos de nome para canal de "Culinária saudável"</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Temático:</strong> Cozinha Sem Culpa</li>
+              <li>• <strong>Aspiracional:</strong> Viva Mais Leve</li>
+              <li>• <strong>Pessoal:</strong> Cozinhando com Ana</li>
+              <li>• <strong>Autoridade:</strong> O Nutricionista da Cozinha</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

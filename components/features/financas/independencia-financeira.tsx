@@ -10,8 +10,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("financas", "independencia-financeira")!;
 const faqs = [
-  { question: "O que é a regra dos 4%?", answer: "A regra dos 4% (método FIRE) diz que você pode sacar 4% do seu patrimônio por ano sem esgotá-lo. Assim, para viver com R$5.000/mês, precisa de R$1.500.000 investidos." },
-  { question: "O que é FIRE?", answer: "FIRE (Financial Independence, Retire Early) é um movimento que busca acumular patrimônio suficiente para viver de renda e aposentar cedo, geralmente antes dos 50 anos." },
+  { question: "O que é a regra dos 4%?", answer: "A regra dos 4% (baseada no Estudo de Trinity) diz que você pode sacar 4% do patrimônio por ano durante 30 anos sem esgotá-lo, com alta probabilidade histórica. Para viver com R$ 5.000/mês (R$ 60.000/ano), você precisaria de R$ 1.500.000 investidos (60.000 / 0,04)." },
+  { question: "O que é FIRE?", answer: "FIRE (Financial Independence, Retire Early) é um movimento que busca acumular patrimônio suficiente para viver de renda e se aposentar antecipadamente. O foco é maximizar a taxa de poupança, reduzir gastos desnecessários e investir consistentemente para atingir a meta o mais cedo possível." },
+  { question: "A regra dos 4% funciona no Brasil?", answer: "A regra dos 4% foi desenvolvida com base no mercado americano. No Brasil, com taxas de juros reais historicamente mais altas, alguns especialistas sugerem que 3% seja um parâmetro mais conservador e seguro para o contexto brasileiro, especialmente com inflação variável." },
+  { question: "Qual a diferença entre FIRE conservador e agressivo?", answer: "FIRE conservador usa taxa de saque de 3% (patrimônio = gastos × 400), para maior segurança e longevidade do patrimônio. FIRE agressivo usa 4-5% (patrimônio = gastos × 200-250). Esta calculadora mostra os dois para você comparar." },
+  { question: "Como acelerar o caminho para a independência financeira?", answer: "Os dois principais alavancadores são: aumentar a renda (novas fontes, promoções, projetos paralelos) e reduzir gastos (aumenta a taxa de poupança). Dobrar a taxa de poupança de 10% para 20% reduz o prazo para IF pela metade. Rentabilidade alta ajuda, mas tem menos impacto do que se imagina no começo." },
 ];
 
 export function IndependenciaFinanceira() {
@@ -46,7 +49,48 @@ export function IndependenciaFinanceira() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A calculadora de independência financeira usa dois benchmarks: a <strong>Meta FIRE (regra dos 4%)</strong>{" "}
+            — patrimônio = gastos anuais × 25 — e a <strong>Meta conservadora (regra dos 3%)</strong> —
+            patrimônio = gastos anuais × 33. A diferença entre as duas reflete o grau de segurança desejado
+            para que o patrimônio sustente a renda por décadas sem se esgotar.
+          </p>
+          <p>
+            O tempo estimado é calculado simulando mês a mês o crescimento do patrimônio com juros compostos
+            sobre o saldo atual e os aportes mensais. O resultado assume rentabilidade constante — na prática,
+            a volatilidade dos mercados fará com que o prazo real seja diferente. Use como estimativa de
+            planejamento, não como data garantida.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Profissional de 30 anos</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Gastos: R$ 6.000/mês | Patrimônio atual: R$ 80.000 | Aporte: R$ 3.000/mês | Rentabilidade: 12% a.a.
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Meta FIRE: R$ 1.800.000 | Estimativa: ≈ 22 anos (aposentadoria aos 52)
+            </p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Casal com renda alta</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Gastos: R$ 10.000/mês | Patrimônio: R$ 300.000 | Aporte: R$ 8.000/mês | Rentabilidade: 10% a.a.
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Meta FIRE: R$ 3.000.000 | Estimativa: ≈ 14 anos
+            </p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="space-y-4 p-6">
           <div className="grid gap-4 sm:grid-cols-2">

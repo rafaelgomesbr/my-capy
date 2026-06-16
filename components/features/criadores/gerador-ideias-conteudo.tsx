@@ -13,7 +13,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-ideias-conteudo")!;
 const faqs = [
-  { question: "Como nunca ficar sem ideias de conteúdo?", answer: "Use o método 3H: Help (tutoriais que resolvem problemas), Hub (conteúdo regular do seu nicho) e Hero (grandes conteúdos de destaque). Misture formatos: vídeo, reels, carrossel, stories e blog." },
+  { question: "Como nunca ficar sem ideias de conteúdo?", answer: "Use o método 3H: Help (tutoriais que resolvem problemas), Hub (conteúdo regular do seu nicho) e Hero (grandes conteúdos de destaque). Misture formatos: vídeo, reels, carrossel, stories e blog. Salve também dúvidas que seu público faz em DMs e comentários — são ideias valiosas." },
+  { question: "Qual tipo de conteúdo gera mais engajamento?", answer: "Conteúdos educativos (tutoriais, listas de dicas) e emocionais (histórias, bastidores) tendem a gerar mais compartilhamentos. Enquetes e perguntas aumentam comentários. Reels e vídeos curtos dominam o alcance orgânico na maioria das plataformas atualmente." },
+  { question: "Preciso criar conteúdo original ou posso reinterpretar temas?", answer: "Reinterpretar é válido e eficaz — o que importa é trazer sua perspectiva única. Não existe assunto totalmente original; existe o SEU olhar sobre um assunto. Combine sua experiência pessoal com temas do nicho para gerar conteúdo genuinamente seu." },
+  { question: "Quanto tempo leva para um canal crescer?", answer: "A maioria dos criadores de conteúdo vê crescimento consistente após 6-12 meses de publicação regular. Os primeiros 3 meses são os mais difíceis (poucos seguidores, pouco engajamento). A chave é manter a consistência mesmo sem resultados imediatos." },
+  { question: "Como saber quais ideias vão performar bem?", answer: "Pesquise: veja quais posts do seu nicho têm mais engajamento, use o Google Trends para identificar assuntos em alta, e consulte as perguntas mais frequentes em grupos e fóruns do seu nicho. Use as 12 ideias geradas como ponto de partida e adapte ao seu estilo." },
 ];
 
 interface Ideia {
@@ -63,7 +67,38 @@ Retorne apenas as 12 ideias no formato indicado, sem introdução ou conclusão.
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 12 ideias de conteúdo específicas para o seu nicho, categorizadas por
+            tipo: Tutorial, Lista, Estudo de caso, Comparativo, Bastidores, Opinião, FAQ, Tendência,
+            Dica Rápida, Desafio, Review ou Série. Cada ideia é pensada para engajamento real, não
+            sugestões genéricas.
+          </p>
+          <p>
+            Quanto mais específico o nicho e o público-alvo, mais personalizadas serão as ideias.
+            Clique no ícone de copiar ao lado de cada ideia para usar como pauta. Gere novamente para
+            obter um novo conjunto de 12 ideias diferentes — cada geração usa um ângulo diferente.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplos de ideias para nicho "Finanças pessoais"</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• [Tutorial] Como montar sua primeira reserva de emergência em 6 meses</li>
+              <li>• [Comparativo] Tesouro Direto vs CDB: onde investir R$500?</li>
+              <li>• [Bastidores] Meu extrato de investimentos ao vivo — acertos e erros</li>
+              <li>• [FAQ] 10 dúvidas que iniciantes em investimento têm</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

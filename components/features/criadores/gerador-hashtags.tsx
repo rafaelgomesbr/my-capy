@@ -14,7 +14,10 @@ import { getToolBySlug } from "@/lib/tools";
 const tool = getToolBySlug("criadores", "gerador-hashtags")!;
 const faqs = [
   { question: "Quantas hashtags usar no Instagram?", answer: "O Instagram recomenda entre 3-5 hashtags altamente relevantes. Evite usar 30 hashtags genéricas — foque em hashtags de nicho relacionadas ao seu conteúdo para melhor alcance orgânico." },
-  { question: "Devo usar hashtags populares ou de nicho?", answer: "Combine os dois: 30% populares (1M+ posts), 50% médias (100K-1M posts) e 20% de nicho (menos de 100K). Isso maximiza alcance e relevância." },
+  { question: "Devo usar hashtags populares ou de nicho?", answer: "Combine os dois: 30% populares (1M+ posts), 50% médias (100K-1M posts) e 20% de nicho (menos de 100K). Isso maximiza alcance e relevância para sua audiência específica." },
+  { question: "As hashtags funcionam igual em todas as redes?", answer: "Não. No Instagram e TikTok são essenciais para descoberta. No LinkedIn, 3-5 hashtags profissionais são suficientes. No Twitter/X, hashtags de tendência são mais eficazes. No YouTube, tags têm papel menor que o título e thumbnail." },
+  { question: "Quantas hashtags por post no TikTok?", answer: "No TikTok, use 3-5 hashtags por vídeo: uma tendência geral (#FYP ou #ForYou), 1-2 de nicho e 1-2 específicas do conteúdo. Muitas hashtags podem diluir a relevância e confundir o algoritmo." },
+  { question: "O uso de hashtags banidas prejudica meu perfil?", answer: "Sim. Hashtags banidas ou abusadas pelo Instagram podem reduzir o alcance do post e, em casos extremos, do perfil todo (shadow ban). Sempre verifique se a hashtag está ativa antes de usar." },
 ];
 
 export function GeradorHashtags() {
@@ -55,7 +58,37 @@ Regras:
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador usa IA (Gemini) para criar hashtags relevantes para o seu nicho e rede social.
+            Ele gera um mix estratégico de 20 hashtags incluindo populares (amplo alcance), médias
+            (engajamento qualificado) e de nicho (audiência específica), em português e inglês.
+          </p>
+          <p>
+            Cada geração é personalizada para a rede selecionada — a IA considera as boas práticas
+            de cada plataforma. Instagram e TikTok permitem mais hashtags; LinkedIn e Twitter preferem
+            menos, mas mais precisas. Clique em uma hashtag individual para copiá-la, ou use o botão
+            para copiar todas de uma vez.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estratégia de hashtags por tamanho</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Populares (1M+ posts):</strong> #fitness #receitas #empreendedorismo</li>
+              <li>• <strong>Médias (10K-1M):</strong> #receitasfitbr #fintechbrasil #mktdigital</li>
+              <li>• <strong>Nicho (&lt;10K):</strong> #veganismosaudavel2025 #startuprecife</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

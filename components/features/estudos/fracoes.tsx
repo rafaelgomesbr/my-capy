@@ -11,6 +11,22 @@ import { getToolBySlug } from "@/lib/tools";
 function gcd(a: number, b: number): number { return b === 0 ? Math.abs(a) : gcd(b, a % b); }
 function simplify(n: number, d: number) { const g = gcd(Math.abs(n), Math.abs(d)); return [n / g, d / g]; }
 
+const faqsFracoes = [
+  { question: "Como somar frações com denominadores diferentes?", answer: "Encontre o MMC dos denominadores, converta cada fração para ter o novo denominador e some os numeradores. Ex: 1/4 + 1/6 → MMC(4,6)=12 → 3/12 + 2/12 = 5/12." },
+  { question: "Como multiplicar frações?", answer: "Multiplique numerador com numerador e denominador com denominador, depois simplifique. Ex: 2/3 × 3/4 = 6/12 = 1/2." },
+  { question: "Como dividir frações?", answer: "Inverta a segunda fração (numerador↔denominador) e multiplique. Ex: 2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6." },
+  { question: "O que significa simplificar uma fração?", answer: "Simplificar é dividir o numerador e o denominador pelo MDC deles até que não haja mais divisores comuns. Ex: 18/24 → MDC=6 → 3/4 (irredutível — não pode ser mais simplificada)." },
+  { question: "O que é fração imprópria?", answer: "Uma fração imprópria tem o numerador maior que o denominador (ex: 7/4). Ela pode ser convertida em número misto: 7/4 = 1 e 3/4. Esta calculadora trabalha com frações impróprias e retorna o resultado simplificado." },
+];
+
+const faqsConversor = [
+  { question: "Como converter decimal para fração?", answer: "Conte as casas decimais e coloque o número sobre a potência de 10 correspondente. Ex: 0,75 → 75/100. Simplifique pelo MDC(75,100)=25 → 3/4." },
+  { question: "Como converter fração para decimal?", answer: "Divida o numerador pelo denominador. Ex: 3/4 = 3 ÷ 4 = 0,75. Frações com denominador potência de 2 ou 5 resultam em decimais exatos. As demais geram dízimas periódicas." },
+  { question: "O que é dízima periódica?", answer: "É um decimal com repetição infinita de algarismos. Ex: 1/3 = 0,333... (períoio 3). Estas frações não podem ser representadas exatamente em ponto flutuante binário — a ferramenta exibe a aproximação do computador." },
+  { question: "Como converter porcentagem para fração?", answer: "Divida a porcentagem por 100 e simplifique. Ex: 35% = 35/100 = 7/20. Para usar nesta ferramenta, coloque 35 no numerador e 100 no denominador." },
+  { question: "Como representar um número misto como fração imprópria?", answer: "Multiplique a parte inteira pelo denominador e some ao numerador. Ex: 2 e 3/4 = (2×4+3)/4 = 11/4." },
+];
+
 export function Fracoes() {
   const tool = getToolBySlug("estudos", "fracoes")!;
   const [n1, setN1] = useState(""); const [d1, setD1] = useState("");
@@ -32,10 +48,37 @@ export function Fracoes() {
     setResult(simplify(rn, rd) as [number, number]);
   }, [n1, d1, n2, d2, op]);
 
-  const faqs = [{ question: "Como somar frações com denominadores diferentes?", answer: "Encontre o MMC dos denominadores, converta as frações e some os numeradores." }];
-
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqsFracoes}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A calculadora de frações realiza as quatro operações básicas (+, -, ×, ÷) e simplifica
+            automaticamente o resultado pelo MDC (Máximo Divisor Comum) dos termos. A fração resultante
+            é sempre exibida na forma irredutível (mais simplificada possível).
+          </p>
+          <p>
+            Para somar e subtrair, a ferramenta calcula o denominador comum correto multiplicando os
+            denominadores. Para multiplicar, multiplica numeradores e denominadores diretamente. Para
+            dividir, inverte a segunda fração e multiplica.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Soma: 1/3 + 1/4</p>
+            <p className="mt-1 text-sm text-muted-foreground">MMC(3,4) = 12 → 4/12 + 3/12 = 7/12</p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Divisão: 5/6 ÷ 2/3</p>
+            <p className="mt-1 text-sm text-muted-foreground">5/6 × 3/2 = 15/12 = 5/4 (simplificado)</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="flex items-center gap-3 justify-center">
@@ -76,7 +119,6 @@ export function ConversorFracoes() {
   const tool = getToolBySlug("estudos", "conversor-fracoes")!;
   const [n, setN] = useState(""); const [d, setD] = useState("");
   const [decimal, setDecimal] = useState("");
-  const faqs = [{ question: "Como converter decimal para fração?", answer: "Multiplique o decimal por uma potência de 10 para obter o numerador. Ex: 0,75 = 75/100 = 3/4 (após simplificar)." }];
 
   const decToFrac = () => {
     const dec = parseFloat(decimal.replace(",", "."));
@@ -94,7 +136,37 @@ export function ConversorFracoes() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqsConversor}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O conversor permite transformar frações em decimais (divisão simples) e decimais em frações
+            (multiplicação pelo fator de 10 adequado ao número de casas decimais, seguido de simplificação).
+            A conversão é bidirecional — você pode converter em qualquer direção.
+          </p>
+          <p>
+            Frações com denominador que é múltiplo apenas de 2 e 5 produzem decimais exatos (ex: 3/4 = 0,75).
+            Frações com outros denominadores produzem dízimas periódicas (ex: 1/3 = 0,333...), que são
+            truncadas pela precisão do ponto flutuante.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Conversões comuns</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• 1/4 = 0,25 | 3/4 = 0,75</li>
+              <li>• 1/3 = 0,333... | 2/3 = 0,666...</li>
+              <li>• 1/8 = 0,125 | 5/8 = 0,625</li>
+              <li>• 0,5 = 1/2 | 0,6 = 3/5</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

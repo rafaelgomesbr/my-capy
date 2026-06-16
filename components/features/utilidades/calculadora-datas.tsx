@@ -10,7 +10,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("utilidades", "calculadora-datas")!;
-const faqs = [{ question: "Como calcular dias úteis entre datas?", answer: "Para dias úteis, subtraia os sábados, domingos e feriados nacionais da contagem total." }];
+const faqs = [
+  { question: "Como calcular dias úteis entre datas?", answer: "Para dias úteis, subtraia os sábados, domingos e feriados nacionais da contagem total de dias. Esta ferramenta calcula dias corridos. Para cálculo com dias úteis, use o número de dias corridos como base e desconte aproximadamente 2 dias por semana (finais de semana) e os feriados do período." },
+  { question: "Para que serve adicionar ou subtrair dias de uma data?", answer: "Muito útil em contextos jurídicos (prazos processuais), financeiros (vencimento de parcelas, rendimentos de renda fixa), logísticos (data prevista de entrega) e de planejamento (quantos dias até um evento). Insira a data base e o número de dias para obter a data resultante e o dia da semana." },
+  { question: "Como calcular a data de vencimento de um prazo?", answer: "Use a aba 'Adicionar/Subtrair dias'. Insira a data de início como data base, selecione 'Adicionar dias' e informe o prazo em dias. A ferramenta mostrará a data exata de vencimento e o dia da semana correspondente — essencial para prazos contratuais e judiciais." },
+  { question: "Qual a diferença entre dias corridos e dias úteis?", answer: "Dias corridos contam todos os dias do calendário, incluindo finais de semana e feriados. Dias úteis excluem sábados, domingos e feriados. Em contratos e prazos legais, especifique sempre qual das duas formas está sendo usada — a diferença pode ser significativa em períodos com muitos feriados." },
+  { question: "Quantas semanas há em um ano?", answer: "Um ano tem 52 semanas completas e 1 ou 2 dias extras (anos comuns têm 365 dias = 52 × 7 + 1; anos bissextos têm 366 = 52 × 7 + 2). Para calcular semanas entre duas datas, divida o número de dias por 7 — a ferramenta já mostra esse valor automaticamente." },
+];
 
 const DIAS_SEMANA = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
 
@@ -40,7 +46,37 @@ export function CalculadoraDatas() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A calculadora de datas tem duas funções: calcular a diferença em dias entre duas datas
+            (útil para prazos, durações de contratos e planejamento) e calcular uma nova data a
+            partir de uma data base somando ou subtraindo um número de dias (útil para vencimentos,
+            prazos judiciais e previsões de entrega).
+          </p>
+          <p>
+            O resultado de diferença também exibe o equivalente em semanas e dias para facilitar
+            o planejamento. Na função de adição/subtração, o dia da semana é mostrado junto com a
+            data calculada — evitando surpresas de prazos caindo em finais de semana ou feriados.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Casos de uso práticos</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Prazo processual: 15/06/2026 + 15 dias = 30/06/2026 (Terça)</li>
+              <li>• Duração de contrato: 01/01/2026 → 01/01/2027 = 365 dias (52 semanas)</li>
+              <li>• Vencimento de parcela: hoje + 30 dias = próxima data de cobrança</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6">
           <Tabs defaultValue="diferenca">

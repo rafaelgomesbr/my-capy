@@ -8,7 +8,13 @@ import { Input } from "@/components/ui/input";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("utilidades", "calculadora-idade")!;
-const faqs = [{ question: "Como é calculada a idade exata?", answer: "A idade é calculada em anos, meses e dias completos desde a data de nascimento até hoje." }];
+const faqs = [
+  { question: "Como é calculada a idade exata?", answer: "A idade é calculada em anos, meses e dias completos desde a data de nascimento até a data atual. O cálculo considera os diferentes números de dias em cada mês e os anos bissextos (29 de fevereiro)." },
+  { question: "O que são anos bissextos e como afetam a idade?", answer: "Anos bissextos têm 366 dias (fevereiro com 29 dias) e ocorrem a cada 4 anos, exceto anos centenários (como 1900) que não são divisíveis por 400. Quem nasce em 29/02 tecnicamente faz aniversário apenas em anos bissextos; em outros anos, costuma-se comemorar em 28/02 ou 01/03." },
+  { question: "Para que serve saber quantos dias de vida tenho?", answer: "Além de curiosidade, o total de dias vividos é útil para cálculos de benefícios previdenciários (o INSS considera 'tempo de contribuição' em dias), para contratos de seguros de vida, e em aplicações médicas onde a idade precisa em dias é relevante (especialmente para recém-nascidos e crianças pequenas)." },
+  { question: "Como calcular a idade para fins previdenciários no Brasil?", answer: "O INSS considera o tempo de contribuição completo, incluindo meses e dias. A aposentadoria por tempo de contribuição exige 35 anos para homens e 30 para mulheres (ou as novas regras da Reforma da Previdência de 2019). Esta calculadora mostra anos, meses e dias para facilitar esse controle." },
+  { question: "A calculadora funciona para datas futuras?", answer: "Não — ela calcula a idade a partir da data de nascimento até hoje. Para calcular a idade em uma data futura específica, subtraia a data de nascimento da data desejada manualmente. A calculadora de datas do MyCapy pode ajudar com essa diferença." },
+];
 
 export function CalculadoraIdade() {
   const [nascimento, setNascimento] = useState("");
@@ -38,7 +44,38 @@ export function CalculadoraIdade() {
   const result = calcularIdade(nascimento);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A calculadora determina sua idade exata em anos, meses e dias contados até o dia de hoje.
+            O algoritmo subtrai a data de nascimento da data atual, ajustando corretamente quando o
+            dia atual é menor que o dia do nascimento (emprestando dias do mês anterior) e quando o
+            mês atual é menor que o mês do nascimento (emprestando meses do ano anterior).
+          </p>
+          <p>
+            Além da idade exata, a ferramenta mostra o total de dias vividos (útil para cálculos
+            previdenciários) e a contagem regressiva para o próximo aniversário. Todas as contas
+            são feitas localmente no seu navegador, sem envio de dados para servidores.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Nascido em 10/03/1990</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Idade: 36 anos, 3 meses e 5 dias</li>
+              <li>• Total de dias vividos: aproximadamente 13.244</li>
+              <li>• Próximo aniversário: 10/03/2027 (falta ~269 dias)</li>
+            </ul>
+            <p className="mt-2 text-xs text-muted-foreground">(valores aproximados para 15/06/2026)</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

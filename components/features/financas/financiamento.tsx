@@ -11,8 +11,11 @@ import { getToolBySlug } from "@/lib/tools";
 const tool = getToolBySlug("financas", "financiamento")!;
 
 const faqs = [
-  { question: "O que é o sistema PRICE?", answer: "No sistema PRICE as parcelas são iguais. A amortização cresce e os juros diminuem ao longo do tempo." },
-  { question: "O que é o sistema SAC?", answer: "No SAC a amortização é constante, mas os juros caem a cada parcela, resultando em prestações decrescentes." },
+  { question: "O que é o sistema PRICE?", answer: "No sistema PRICE (Francês) as parcelas são fixas e iguais. A amortização cresce ao longo do tempo enquanto os juros diminuem. Ideal para quem quer previsibilidade no orçamento." },
+  { question: "O que é o sistema SAC?", answer: "No SAC (Sistema de Amortização Constante) a amortização é fixa, mas os juros caem a cada parcela. As prestações começam maiores que no PRICE, mas diminuem ao longo do tempo, e o total de juros pagos é menor." },
+  { question: "PRICE ou SAC: qual é melhor?", answer: "O SAC costuma gerar menor custo total (menos juros pagos). Porém, as primeiras parcelas são mais altas. O PRICE é indicado quando a capacidade de pagamento inicial é mais limitada. Compare os dois antes de assinar." },
+  { question: "Como calcular a parcela de um financiamento?", answer: "No PRICE: PMT = PV × [i × (1+i)^n] / [(1+i)^n - 1], onde PV é o valor financiado, i é a taxa mensal e n é o número de parcelas." },
+  { question: "O financiamento já inclui IOF e seguros?", answer: "Esta calculadora calcula apenas os juros do financiamento (sistema PRICE ou SAC). O custo real, chamado CET (Custo Efetivo Total), inclui também IOF, seguros e tarifas — sempre peça o CET antes de fechar." },
 ];
 
 export function Financiamento() {
@@ -42,7 +45,46 @@ export function Financiamento() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            No sistema <strong>PRICE</strong>, a parcela mensal é calculada pela fórmula da anuidade:{" "}
+            <strong>PMT = PV × [i × (1+i)^n] / [(1+i)^n – 1]</strong>. As parcelas são iguais, mas a composição
+            muda: no início paga-se mais juros; no final, mais amortização.
+          </p>
+          <p>
+            No sistema <strong>SAC</strong>, a amortização é constante (valor financiado ÷ número de parcelas).
+            Os juros de cada parcela são calculados sobre o saldo devedor restante, que cai mês a mês. Resultado:
+            parcelas decrescentes e total de juros menor que no PRICE.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Financiamento imobiliário</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Valor: R$ 300.000 | Taxa: 0,8% a.m. | Prazo: 360 meses (30 anos) | Sistema: PRICE
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Parcela: ≈ R$ 2.399 | Total de juros: ≈ R$ 563.640
+            </p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Financiamento de veículo</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Valor: R$ 50.000 | Taxa: 1,2% a.m. | Prazo: 48 meses | Sistema: PRICE
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Parcela: ≈ R$ 1.398 | Total de juros: ≈ R$ 17.104
+            </p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="space-y-4 p-6">
           <div className="grid gap-4 sm:grid-cols-2">

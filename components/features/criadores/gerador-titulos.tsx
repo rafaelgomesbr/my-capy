@@ -12,8 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-titulos")!;
 const faqs = [
-  { question: "O que torna um título irresistível?", answer: "Títulos eficazes usam números específicos, criam curiosidade, fazem uma promessa clara e falam diretamente com a dor ou desejo do leitor." },
-  { question: "Quantos títulos devo testar?", answer: "Sempre teste pelo menos 3-5 variações de título. Em email marketing e ads, faça A/B test. No YouTube, use thumbnails diferentes para medir CTR." },
+  { question: "O que torna um título irresistível?", answer: "Títulos eficazes usam números específicos, criam curiosidade, fazem uma promessa clara de benefício e falam diretamente com a dor ou desejo do leitor. Ex: '7 Erros que Custam Caro para Iniciantes em Investimentos'." },
+  { question: "Quantos títulos devo testar?", answer: "Sempre teste pelo menos 3-5 variações de título. Em email marketing e ads, faça A/B test com 2-3 versões. No YouTube, a taxa de clique (CTR) da thumbnail é o principal indicador de qual título funciona melhor." },
+  { question: "Números ímpares performam melhor em títulos?", answer: "Estudos de marketing de conteúdo mostram que listas com números ímpares (5, 7, 9, 11) têm CTR maior do que com números pares. '7 dicas' tende a performar melhor que '8 dicas'. Títulos com 65 caracteres são ideais para SEO." },
+  { question: "Qual a diferença entre título para blog e para YouTube?", answer: "Títulos de blog são otimizados para SEO (palavras-chave no início, entre 50-70 caracteres). Títulos de YouTube precisam gerar curiosidade e trabalhar com a thumbnail (podem ser mais curtos). Ambos devem prometer valor claro." },
+  { question: "Devo usar maiúsculas em todas as palavras?", answer: "Em inglês, o 'title case' é padrão. Em português, o estilo mais eficaz varia: capitalize as palavras principais para destaque ou use apenas a inicial do título. Evite TODAS AS LETRAS MAIÚSCULAS (parece spam)." },
 ];
 
 export function GeradorTitulos() {
@@ -54,7 +57,37 @@ Retorne apenas os títulos, um por linha, sem numeração ou explicações.`;
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 8 títulos usando 8 gatilhos diferentes: números, curiosidade, urgência,
+            benefício direto, pergunta provocativa, controvérsia, lista e transformação. Cada título
+            usa uma técnica de copywriting diferente para atrair públicos com motivações distintas.
+          </p>
+          <p>
+            Especifique o público-alvo para títulos mais personalizados — a IA ajustará o tom, o
+            vocabulário e os gatilhos para ressoar com aquele grupo específico. Copie o título
+            preferido clicando no ícone de copiar ao lado de cada um.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">8 estilos de título para "Investimentos"</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Número: "7 Investimentos que Todo Iniciante Deve Conhecer"</li>
+              <li>• Curiosidade: "O Que Ninguém Te Conta Sobre Renda Fixa"</li>
+              <li>• Urgência: "Por Que Você Precisa Começar a Investir Agora"</li>
+              <li>• Pergunta: "Seu Dinheiro Está Perdendo Valor?"</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

@@ -11,8 +11,11 @@ import { getToolBySlug } from "@/lib/tools";
 const tool = getToolBySlug("financas", "salario-liquido")!;
 
 const faqs = [
-  { question: "Como é calculado o INSS em 2024?", answer: "O INSS em 2024 usa alíquotas progressivas: 7,5% até R$ 1.412, 9% de R$ 1.412,01 a R$ 2.666,68, 12% de R$ 2.666,69 a R$ 4.000,03, 14% de R$ 4.000,04 a R$ 7.786,02." },
-  { question: "Como é calculado o IRRF?", answer: "O IRRF é calculado sobre a base de cálculo (salário bruto - INSS - dependentes). Faixas: isento até R$ 2.259,20; 7,5% de R$ 2.259,21 a R$ 2.826,65; 15% de R$ 2.826,66 a R$ 3.751,05; 22,5% de R$ 3.751,06 a R$ 4.664,68; 27,5% acima." },
+  { question: "Como é calculado o INSS em 2025?", answer: "O INSS usa alíquotas progressivas: 7,5% sobre a parcela até R$ 1.412,00; 9% de R$ 1.412,01 a R$ 2.666,68; 12% de R$ 2.666,69 a R$ 4.000,03; 14% de R$ 4.000,04 a R$ 7.786,02. Cada faixa incide apenas sobre o valor que supera o limite anterior." },
+  { question: "Como é calculado o IRRF?", answer: "O IRRF incide sobre a base de cálculo (salário bruto – INSS – dedução por dependente de R$ 189,59 cada). Faixas: isento até R$ 2.259,20; 7,5% de R$ 2.259,21 a R$ 2.826,65; 15% de R$ 2.826,66 a R$ 3.751,05; 22,5% de R$ 3.751,06 a R$ 4.664,68; 27,5% acima de R$ 4.664,68." },
+  { question: "O que é alíquota efetiva do INSS?", answer: "É a percentagem real descontada no total do salário. Como o INSS é progressivo, quem ganha R$ 5.000 não paga 14% sobre tudo — a alíquota efetiva fica bem abaixo disso. Use esta calculadora para ver o valor exato." },
+  { question: "Dependentes reduzem o imposto de renda?", answer: "Sim. Cada dependente (filhos, cônjuge sem renda, etc.) reduz a base de cálculo do IRRF em R$ 189,59 por mês. Isso pode fazer mudar de faixa de imposto e gerar uma economia significativa ao longo do ano." },
+  { question: "O vale-refeição e vale-transporte entram no cálculo?", answer: "Esta calculadora considera apenas salário bruto, INSS e dependentes. Outros benefícios como VR, VT, plano de saúde e previdência privada (PGBL até 12% da renda bruta) também podem alterar o IRRF — consulte seu RH para o cálculo completo." },
 ];
 
 function calcularINSS(salario: number): number {
@@ -65,7 +68,40 @@ export function SalarioLiquido() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O salário líquido CLT é calculado em dois passos: primeiro desconta-se o{" "}
+            <strong>INSS progressivo</strong> (até 14% dependendo da faixa salarial), depois calcula-se o{" "}
+            <strong>IRRF</strong> sobre a base líquida (salário – INSS – deduções por dependentes).
+          </p>
+          <p>
+            Ambos usam tabelas progressivas: cada faixa de salário tem sua alíquota própria, e você paga a
+            alíquota maior apenas sobre o que excede o limite da faixa anterior — nunca sobre o salário inteiro.
+            Por isso a alíquota efetiva é sempre menor do que a alíquota máxima da sua faixa.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Salário de R$ 3.000</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              INSS: ≈ R$ 247 | IRRF: ≈ R$ 58 | Salário líquido: ≈ R$ 2.695
+            </p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Salário de R$ 7.000</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              INSS: ≈ R$ 713 | IRRF: ≈ R$ 780 | Salário líquido: ≈ R$ 5.507
+            </p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="space-y-4 p-6">
           <div className="grid gap-4 sm:grid-cols-2">

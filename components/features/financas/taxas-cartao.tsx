@@ -9,7 +9,13 @@ import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("financas", "taxas-cartao")!;
-const faqs = [{ question: "Qual a diferença entre MDR e taxa de antecipação?", answer: "MDR é a taxa descontada por cada transação. Antecipação é o custo para receber o dinheiro antes do prazo normal (32 dias para crédito)." }];
+const faqs = [
+  { question: "Qual a diferença entre MDR e taxa de antecipação?", answer: "MDR (Merchant Discount Rate) é a taxa descontada automaticamente por cada transação de cartão. A taxa de antecipação é um custo adicional cobrado quando o vendedor quer receber o dinheiro antes do prazo normal (que é de 30 dias para crédito)." },
+  { question: "Quando recebo o dinheiro das vendas no cartão?", answer: "Débito: 1 a 2 dias úteis. Crédito à vista: 30 dias. Crédito parcelado: as parcelas chegam mensalmente, 30 dias após cada parcela vencer. Para receber antes, usa-se a antecipação de recebíveis (com custo adicional)." },
+  { question: "O que é taxa de antecipação de recebíveis?", answer: "É o custo para receber vendas a prazo de forma imediata. Por exemplo, se você vendeu R$ 1.000 a prazo e quer receber agora, a adquirente desconta uma porcentagem (geralmente 2-5% a.m.) sobre o valor antecipado." },
+  { question: "Existe diferença de taxa entre bandeiras (Visa, Master, Elo)?", answer: "Sim. Diferentes bandeiras têm acordos comerciais distintos com as adquirentes. Na prática, as diferenças costumam ser pequenas (0,1-0,5%), mas podem impactar em volume alto de vendas." },
+  { question: "Como negociar taxas de cartão?", answer: "Vendedores com alto volume de vendas têm mais poder de negociação. Solicite propostas de múltiplas adquirentes (Cielo, Stone, PagSeguro, etc.) e apresente as concorrentes para conseguir melhor taxa. Maquininhas 'sem aluguel' geralmente compensam a isenção com taxas ligeiramente maiores." },
+];
 
 const taxas: Record<string, Record<string, number>> = {
   debito: { cielo: 0.015, stone: 0.015, pagseguro: 0.019, mercadopago: 0.019 },
@@ -34,7 +40,36 @@ export function TaxasCartao() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            Toda venda com cartão de crédito ou débito tem um custo para o vendedor: a taxa MDR (Merchant
+            Discount Rate), cobrada como percentual sobre o valor da transação. Essa taxa varia conforme a
+            modalidade (débito é mais barata que crédito parcelado) e a operadora contratada.
+          </p>
+          <p>
+            <strong>Atenção:</strong> as taxas exibidas são estimativas típicas do mercado e podem variar
+            conforme o volume de vendas, ramo de atividade e negociação com a adquirente. Sempre verifique
+            as condições vigentes no seu contrato ou consulte sua adquirente para obter as taxas exatas.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Venda de R$ 500 no débito (Cielo 1,5%)</p>
+            <p className="mt-1 text-sm text-muted-foreground">Taxa: R$ 7,50 | Líquido recebido: R$ 492,50</p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Venda de R$ 1.000 no crédito 6x (Stone 3,3%)</p>
+            <p className="mt-1 text-sm text-muted-foreground">Taxa: R$ 33,00 | Líquido recebido: R$ 967,00</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="space-y-4 p-6">
           <div className="grid gap-4 sm:grid-cols-3">

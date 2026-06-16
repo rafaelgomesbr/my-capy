@@ -5,12 +5,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Loader2, AlertCircle } from "lucide-react";
 
 export function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", category: "sugestao", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -22,12 +24,32 @@ export function ContactForm() {
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
-    setSubmitted(true);
+    setSendError(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error ?? "Erro ao enviar");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : "Erro ao enviar mensagem. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const set = (field: string, value: string) => {
@@ -61,6 +83,7 @@ export function ContactForm() {
               placeholder="Seu nome completo"
               aria-describedby={errors.name ? "name-err" : undefined}
               className={errors.name ? "border-red-500" : ""}
+              disabled={loading}
             />
             {errors.name && (
               <p id="name-err" className="text-xs text-red-500" role="alert">
@@ -79,6 +102,7 @@ export function ContactForm() {
               placeholder="seu@email.com"
               aria-describedby={errors.email ? "email-err" : undefined}
               className={errors.email ? "border-red-500" : ""}
+              disabled={loading}
             />
             {errors.email && (
               <p id="email-err" className="text-xs text-red-500" role="alert">
@@ -93,7 +117,8 @@ export function ContactForm() {
               id="cat-c"
               value={form.category}
               onChange={(e) => set("category", e.target.value)}
-              className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              disabled={loading}
+              className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
             >
               <option value="bug">🐛 Reportar Bug</option>
               <option value="sugestao">💡 Sugestão de Ferramenta</option>
@@ -110,7 +135,8 @@ export function ContactForm() {
               onChange={(e) => set("message", e.target.value)}
               placeholder="Descreva detalhadamente sua mensagem (mínimo 20 caracteres)..."
               aria-describedby={errors.message ? "msg-err" : undefined}
-              className={`min-h-[140px] w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y bg-background ${
+              disabled={loading}
+              className={`min-h-[140px] w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y bg-background disabled:opacity-50 ${
                 errors.message ? "border-red-500" : "border-input"
               }`}
             />
@@ -126,8 +152,22 @@ export function ContactForm() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
-            Enviar Mensagem
+          {sendError && (
+            <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 dark:border-red-900 dark:bg-red-950/30">
+              <AlertCircle className="h-4 w-4 shrink-0 text-red-500" />
+              <p className="text-sm text-red-600 dark:text-red-400">{sendError}</p>
+            </div>
+          )}
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              "Enviar Mensagem"
+            )}
           </Button>
         </form>
       </CardContent>

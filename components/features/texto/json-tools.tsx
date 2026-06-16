@@ -8,7 +8,21 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
-const faqs = [{ question: "O que é JSON?", answer: "JSON (JavaScript Object Notation) é um formato leve de troca de dados, fácil de ler e escrever por humanos e de interpretar por máquinas. É amplamente usado em APIs web." }];
+const faqsFormatter = [
+  { question: "O que é JSON?", answer: "JSON (JavaScript Object Notation) é um formato leve e legível de troca de dados, baseado em um subconjunto da sintaxe JavaScript. É usado amplamente em APIs REST, configurações de aplicações e armazenamento de dados." },
+  { question: "Qual a diferença entre JSON minificado e formatado?", answer: "JSON minificado remove todos os espaços, tabulações e quebras de linha desnecessários, reduzindo o tamanho do arquivo para transmissão em rede. JSON formatado (pretty-print) adiciona indentação e quebras de linha para facilitar a leitura humana." },
+  { question: "O que é indentação em JSON?", answer: "Indentação é o recuo aplicado a cada nível de aninhamento para tornar a estrutura visualmente clara. 2 espaços é o padrão mais comum em projetos JavaScript/Node.js; 4 espaços é preferido em algumas convenções de estilo." },
+  { question: "JSON aceita comentários?", answer: "Não. O formato JSON padrão (RFC 8259) não permite comentários. Se você precisar de comentários, considere formatos alternativos como JSONC (JSON with Comments) ou YAML, que têm suporte a comentários." },
+  { question: "Qual o tamanho máximo de JSON suportado?", answer: "Esta ferramenta processa o JSON inteiramente no navegador. O limite prático depende da memória RAM disponível no dispositivo. Em geral, JSONs de até alguns megabytes são processados sem problemas." },
+];
+
+const faqsValidator = [
+  { question: "Por que meu JSON é inválido?", answer: "Os erros mais comuns são: vírgula após o último elemento de um array ou objeto (trailing comma), chaves de string sem aspas duplas, uso de aspas simples em vez de duplas, e valores undefined ou NaN (não permitidos em JSON)." },
+  { question: "JSON aceita aspas simples?", answer: "Não. O padrão JSON exige aspas duplas para strings e nomes de propriedades. Aspas simples são válidas em JavaScript, mas não em JSON. {\"nome\": \"João\"} é correto; {'nome': 'João'} é inválido." },
+  { question: "O validador aponta a linha do erro?", answer: "Sim. A mensagem de erro do JavaScript inclui a posição (linha/coluna ou offset de caractere) onde o parser encontrou o problema, facilitando a localização do erro no JSON." },
+  { question: "Posso validar JSON com tipos específicos (schema)?", answer: "Esta ferramenta valida apenas a sintaxe JSON (estrutura bem formada). Para validar contra um schema específico (tipos de campos, campos obrigatórios), você precisaria de uma ferramenta de JSON Schema Validation." },
+  { question: "Qual a diferença entre JSON válido e JSON correto?", answer: "JSON válido significa que a sintaxe está correta e o arquivo pode ser parseado. JSON correto (semanticamente) significa que os dados seguem o schema esperado pela aplicação. Um JSON pode ser sintaticamente válido mas conter dados errados." },
+];
 
 export function JsonFormatter() {
   const tool = getToolBySlug("texto", "json-formatter")!;
@@ -36,7 +50,36 @@ export function JsonFormatter() {
   }, [output]);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqsFormatter}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O formatador JSON (JSON pretty-printer) recebe um JSON compacto ou mal indentado e o reorganiza
+            com indentação consistente, uma propriedade por linha e estrutura visual clara. Internamente,
+            o JSON é primeiro parseado pelo motor JavaScript (o que também valida a sintaxe) e depois
+            re-serializado com{" "}
+            <code className="rounded bg-muted px-1 font-mono text-xs">JSON.stringify(obj, null, indentação)</code>.
+          </p>
+          <p>
+            É especialmente útil ao debugar respostas de APIs, ao ler arquivos de configuração compactados,
+            ou ao comparar dois JSONs manualmente. Se o JSON contiver erros de sintaxe, a ferramenta exibe
+            a mensagem de erro do parser com a posição aproximada do problema.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Entrada (minificado)</p>
+            <p className="mt-1 font-mono text-sm text-muted-foreground">{'{"nome":"Maria","idade":28,"cidade":"SP"}'}</p>
+            <p className="mt-2 font-medium">Saída (formatado com 2 espaços)</p>
+            <pre className="mt-1 font-mono text-sm text-primary">{`{\n  "nome": "Maria",\n  "idade": 28,\n  "cidade": "SP"\n}`}</pre>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">
@@ -96,7 +139,36 @@ export function JsonValidator() {
   }, [input]);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqsValidator}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O validador analisa o texto usando o parser JSON nativo do JavaScript. Se o JSON estiver
+            sintaticamente correto, exibe uma confirmação de sucesso. Se houver algum erro, exibe a
+            mensagem de erro do motor JavaScript com a posição do problema, permitindo localizar e corrigir
+            o erro com precisão.
+          </p>
+          <p>
+            Os erros mais frequentes em JSONs inválidos são: trailing comma (vírgula após o último elemento),
+            aspas simples em vez de duplas, chaves sem aspas, valores <code className="rounded bg-muted px-1 font-mono text-xs">undefined</code> ou{" "}
+            <code className="rounded bg-muted px-1 font-mono text-xs">NaN</code> (inválidos em JSON), e
+            objetos com chaves duplicadas.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium text-red-600 dark:text-red-400">JSON inválido (trailing comma)</p>
+            <p className="mt-1 font-mono text-sm text-muted-foreground">{'{"nome": "João", "idade": 30,}'}</p>
+            <p className="mt-2 font-medium text-emerald-600 dark:text-emerald-400">JSON válido (corrigido)</p>
+            <p className="mt-1 font-mono text-sm text-muted-foreground">{'{"nome": "João", "idade": 30}'}</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

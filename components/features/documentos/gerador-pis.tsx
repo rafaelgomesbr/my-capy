@@ -12,13 +12,23 @@ const tool = getToolBySlug("documentos", "gerador-pis")!;
 const faqs = [
   {
     question: "O que é o PIS/PASEP?",
-    answer:
-      "O PIS (Programa de Integração Social) é o número de identificação do trabalhador no FGTS e Seguro-Desemprego. O PASEP é o equivalente para servidores públicos. Ambos possuem 11 dígitos com um dígito verificador.",
+    answer: "O PIS (Programa de Integração Social) é o número de identificação do trabalhador celetista na Caixa Econômica Federal, vinculado ao FGTS, Seguro-Desemprego e Abono Salarial. O PASEP é o equivalente para servidores públicos, gerenciado pelo Banco do Brasil. Ambos possuem 11 dígitos com um dígito verificador.",
   },
   {
     question: "Para que serve este gerador?",
-    answer:
-      "Gera números de PIS/PASEP matematicamente válidos para testes de sistemas de RH, folha de pagamento e desenvolvimento de software. Os números são fictícios e não pertencem a trabalhadores reais.",
+    answer: "Gera números de PIS/PASEP matematicamente válidos para testes de sistemas de RH, folha de pagamento, eSocial, SEFIP/GFIP e desenvolvimento de software. Os números são fictícios e não pertencem a trabalhadores reais — são seguros para uso em ambientes de desenvolvimento e homologação.",
+  },
+  {
+    question: "Como é calculado o dígito verificador do PIS?",
+    answer: "O PIS/PASEP tem 11 dígitos. Os 10 primeiros são a sequência identificadora. O 11º é o dígito verificador: multiplica-se cada um dos 10 dígitos pelos pesos [3,2,9,8,7,6,5,4,3,2], soma-se os resultados e divide-se por 11. Se o resto for menor que 2, o dígito é 0; caso contrário, é 11-resto.",
+  },
+  {
+    question: "Qual a diferença entre PIS, CPF e NIT?",
+    answer: "São registros diferentes: o CPF é gerenciado pela Receita Federal e identifica o cidadão para fins tributários. O PIS identifica o trabalhador celetista no sistema de benefícios trabalhistas. O NIT (Número de Identificação do Trabalhador) é usado por contribuintes individuais e segurados facultativos — estruturalmente equivalente ao PIS/PASEP.",
+  },
+  {
+    question: "O PIS serve como número de conta no banco?",
+    answer: "Não diretamente. O PIS identifica a conta no Fundo de Amparo ao Trabalhador (FAT), mas para sacar o Abono Salarial ou Seguro-Desemprego você precisa ir a uma agência da Caixa ou usar o aplicativo CAIXA Tem. O número do PIS é necessário para abertura de conta social na Caixa Econômica Federal.",
   },
 ];
 
@@ -68,7 +78,40 @@ export function GeradorPis() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria números de PIS/PASEP válidos com 11 dígitos: 10 dígitos de sequência + 1
+            dígito verificador. O verificador é calculado pela soma dos 10 dígitos multiplicados pelos
+            pesos [3,2,9,8,7,6,5,4,3,2]. Se o resto por 11 for menor que 2, o dígito é 0; caso
+            contrário, é 11-resto.
+          </p>
+          <p>
+            O PIS é emitido para trabalhadores celetistas no primeiro emprego com carteira assinada;
+            o PASEP é o equivalente para servidores públicos. Ambos têm o mesmo formato numérico com
+            o padrão xxx.xxxxx.xx-d, e são usados em sistemas de folha de pagamento, eSocial e SEFIP.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Formato PIS/PASEP</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• Exemplo: 123.45678.90-1</li>
+              <li>• Sequência: 1234567890</li>
+              <li>• Dígito verificador: 1</li>
+            </ul>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Pesos: [3,2,9,8,7,6,5,4,3,2] — mesmos do CPF mas em ordem diferente
+            </p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <h2 className="text-lg font-semibold">Gerar PIS/PASEP</h2>

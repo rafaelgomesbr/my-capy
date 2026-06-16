@@ -7,7 +7,13 @@ import { Label } from "@/components/ui/label";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("texto", "contador-caracteres")!;
-const faqs = [{ question: "Qual o limite de caracteres do Instagram?", answer: "O Instagram permite até 2.200 caracteres na legenda, 150 na bio e 100 por comentário." }];
+const faqs = [
+  { question: "Qual o limite de caracteres do Instagram?", answer: "Instagram legenda: 2.200 caracteres (mas apenas as 3 primeiras linhas aparecem sem clicar em 'mais'). Bio: 150 caracteres. Comentário: 100 caracteres. Stories (texto): 250 caracteres." },
+  { question: "Quantos caracteres cabem num tweet?", answer: "O Twitter/X permite 280 caracteres por post. Links são encurtados automaticamente e contam como 23 caracteres, independente do tamanho original. Emojis geralmente contam como 2 caracteres." },
+  { question: "O que é meta description e qual o limite?", answer: "Meta description é o trecho de texto que aparece nos resultados de pesquisa do Google, abaixo do título da página. O limite recomendado é de 120-160 caracteres. Textos maiores são cortados pelo Google com reticências." },
+  { question: "Qual o limite do Title Tag para SEO?", answer: "O título SEO (title tag) idealmente deve ter entre 50-60 caracteres para não ser cortado na exibição do Google. Títulos muito curtos (menos de 30) ou muito longos (mais de 70) podem prejudicar o clique nos resultados de busca." },
+  { question: "Emojis contam mais de um caractere?", answer: "Sim. Na maioria das plataformas, emojis ocupam 2 caracteres Unicode (código UTF-16). Alguns emojis compostos (como bandeiras de países) podem ocupar 4 ou mais caracteres. Este contador mostra o número real de caracteres JavaScript." },
+];
 
 const limites = [
   { rede: "Twitter/X", limite: 280 },
@@ -22,7 +28,39 @@ export function ContadorCaracteres() {
   const chars = text.length;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O contador de caracteres exibe em tempo real a contagem total (com espaços) e sem espaços,
+            além de barras de progresso que mostram visualmente o quanto do limite de cada plataforma
+            já foi consumido. As barras ficam vermelhas ao ultrapassar o limite.
+          </p>
+          <p>
+            Ideal para criadores de conteúdo que precisam otimizar posts para redes sociais, profissionais
+            de marketing digital que escrevem meta descriptions e title tags para SEO, ou qualquer pessoa
+            que precise controlar o tamanho de um texto para uma finalidade específica.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Limites de plataformas — referência rápida</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Twitter/X: 280 caracteres</li>
+              <li>• Instagram (bio): 150 | (legenda): 2.200</li>
+              <li>• LinkedIn (post): 3.000 | (título): 220</li>
+              <li>• Meta description SEO: 120–160 caracteres</li>
+              <li>• Title tag SEO: 50–60 caracteres</li>
+              <li>• WhatsApp (status): 700 caracteres</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6">
           <div className="space-y-4">

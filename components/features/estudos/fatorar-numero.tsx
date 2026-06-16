@@ -71,7 +71,39 @@ export function FatorarNumero() {
   const primo = fatores.length === 1;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A fatoração usa o algoritmo de divisão por tentativa: testa divisibilidade por cada número
+            de 2 até a raiz quadrada do número. Quando encontra um divisor, divide repetidamente até
+            não ser mais possível, depois passa para o próximo candidato. É eficiente para números até
+            10 milhões.
+          </p>
+          <p>
+            O resultado é exibido tanto na forma expandida (ex: 2 × 2 × 3 = 12) quanto em notação de
+            potências (ex: 2² × 3). Se o número for primo, a ferramenta informa isso diretamente. A
+            unicidade da fatoração (Teorema Fundamental da Aritmética) garante que há apenas uma resposta possível.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplos de fatoração</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• 12 = 2² × 3</li>
+              <li>• 100 = 2² × 5²</li>
+              <li>• 360 = 2³ × 3² × 5</li>
+              <li>• 1024 = 2¹⁰</li>
+              <li>• 97 = primo!</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

@@ -12,7 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-posts")!;
 const faqs = [
-  { question: "Como criar posts que engajam?", answer: "Posts com alta performance têm um gancho forte nas primeiras linhas, entregam valor real, possuem CTA claro e pedem interação do público." },
+  { question: "Como criar posts que engajam?", answer: "Posts com alta performance têm um gancho forte nas primeiras linhas, entregam valor real, possuem CTA claro e pedem interação do público. As primeiras 1-2 linhas determinam se o usuário vai clicar em 'ver mais' ou passar para o próximo post." },
+  { question: "Qual o tamanho ideal de um post?", answer: "No Instagram, posts entre 300-700 caracteres têm melhor desempenho. No LinkedIn, textos mais longos (1.000-2.000 caracteres) funcionam bem. No Twitter/X, o limite é 280 caracteres por tweet. Sempre priorize qualidade sobre quantidade." },
+  { question: "Quantas vezes por semana devo postar?", answer: "A consistência supera a frequência. Postar 3x/semana de forma consistente por 6 meses gera mais resultado do que postar 7x/semana por 2 semanas. Encontre um ritmo sustentável e siga-o." },
+  { question: "Como adaptar o mesmo conteúdo para diferentes redes?", answer: "Mude o formato, não a mensagem. O mesmo tema pode virar: post longo no LinkedIn, carrossel no Instagram, fio no Twitter, reels no TikTok e artigo no blog. Isso multiplica o alcance sem criar mais trabalho do zero." },
+  { question: "Quando é melhor postar nas redes sociais?", answer: "Os melhores horários variam por plataforma e audiência. No geral: Instagram — 18h-21h em dias de semana; LinkedIn — 8h-10h de terça a quinta; TikTok — 19h-23h. Use as métricas do seu próprio perfil para descobrir os horários ideais." },
 ];
 
 export function GeradorPosts() {
@@ -59,7 +63,36 @@ Retorne apenas os posts, sem títulos ou explicações.`;
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 2 versões de post para a rede social escolhida, com gancho forte, corpo
+            com valor prático, emojis e CTA (chamada para ação) no final. Cada versão usa um ângulo
+            ligeiramente diferente para o mesmo tema, dando opções para você escolher ou combinar.
+          </p>
+          <p>
+            O texto é adaptado automaticamente às regras de cada plataforma: até 2.200 caracteres no
+            Instagram, 3.000 no LinkedIn, e fio de 3 tweets no Twitter/X. Escolha o tom de voz que
+            melhor representa sua marca — de educativo a provocativo.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estrutura de post de alto engajamento</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Gancho:</strong> "99% das pessoas cometem esse erro ao investir..."</li>
+              <li>• <strong>Corpo:</strong> 3-5 pontos com valor prático e real</li>
+              <li>• <strong>CTA:</strong> "Salve esse post e marque quem precisa ver isso 👇"</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

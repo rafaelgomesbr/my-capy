@@ -7,7 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { getToolBySlug } from "@/lib/tools";
 
-const faqs = [{ question: "Quantos segundos tem 1 hora?", answer: "1 hora = 60 minutos = 3.600 segundos = 3.600.000 milissegundos." }];
+const faqsTempo = [
+  { question: "Quantos segundos tem 1 hora?", answer: "1 hora = 60 minutos = 3.600 segundos = 3.600.000 milissegundos. Uma hora em microssegundos = 3,6 bilhões." },
+  { question: "Como converter horas em dias?", answer: "Divida o número de horas por 24. Exemplo: 72 horas = 72 ÷ 24 = 3 dias. No sentido inverso, multiplique os dias por 24 para obter horas." },
+  { question: "Quantos segundos tem um ano?", answer: "1 ano ≈ 365,25 dias × 24 horas × 3.600 segundos = 31.557.600 segundos (≈ 31,5 milhões). Este valor usa o ano trópico médio. Um ano bissexto exato tem 31.622.400 segundos." },
+  { question: "Para que converter unidades de tempo?", answer: "É útil em programação (timeouts em milissegundos, SLAs em horas), em finanças (prazos de investimento em dias), em produção (ciclos de processo em segundos), e para entender dados de telemetria e logs de sistema." },
+  { question: "O que é um mês em dias para cálculos?", answer: "Para cálculos simples, usa-se 30 dias por mês. Esta ferramenta usa 30 dias = 1 mês e 365 dias = 1 ano para as conversões. Para cálculos jurídicos e financeiros precisos, conte os dias do calendário." },
+];
 
 function TimeConverter({ slug, from, to, factor, unit, toUnit }: {
   slug: string; from: string; to: string; factor: number; unit: string; toUnit: string;
@@ -16,8 +22,37 @@ function TimeConverter({ slug, from, to, factor, unit, toUnit }: {
   const [value, setValue] = useState("");
   const converted = value !== "" && !isNaN(parseFloat(value)) ? (parseFloat(value) * factor).toFixed(4) : "";
 
+  const explanation = (
+    <div className="space-y-3">
+      <p>
+        A conversão de tempo usa os fatores da escala padrão: 1 minuto = 60 segundos, 1 hora = 60
+        minutos = 3.600 segundos, 1 dia = 24 horas = 86.400 segundos. Esses são valores exatos e
+        universais.
+      </p>
+      <p>
+        Em programação, tempos são frequentemente trabalhos em milissegundos (ms) ou microssegundos (μs)
+        para precisão. Esta ferramenta cobre as unidades do dia a dia: horas, minutos, segundos, dias
+        e semanas.
+      </p>
+    </div>
+  );
+
+  const examples = (
+    <div className="space-y-3">
+      <div className="rounded-lg border p-4">
+        <p className="font-medium">Referência de conversões</p>
+        <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+          <li>• 1 hora = 60 min = 3.600 s</li>
+          <li>• 1 dia = 24 h = 1.440 min = 86.400 s</li>
+          <li>• 1 semana = 7 dias = 168 h</li>
+          <li>• 1 mês (30 dias) = 720 h = 43.200 min</li>
+        </ul>
+      </div>
+    </div>
+  );
+
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout tool={tool} faqs={faqsTempo} explanation={explanation} examples={examples}>
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">
@@ -58,7 +93,37 @@ export function ConversorTempo() {
   const base = parseFloat(value) * (toSeconds[unit] || 1);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqsTempo}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O conversor de tempo completo permite inserir um valor em qualquer unidade (segundos, minutos,
+            horas, dias, semanas ou meses) e ver instantaneamente o equivalente em todas as outras unidades
+            simultaneamente. O cálculo usa o segundo como unidade base interna.
+          </p>
+          <p>
+            É útil para planejar projetos (convertendo semanas em dias úteis e horas), para programação
+            (convertendo SLAs de horas para segundos), ou para cálculos de produção e logística que
+            envolvem diferentes escalas de tempo.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: 2 semanas equivale a</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• 14 dias</li>
+              <li>• 336 horas</li>
+              <li>• 20.160 minutos</li>
+              <li>• 1.209.600 segundos</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

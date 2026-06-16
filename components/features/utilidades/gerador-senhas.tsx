@@ -12,8 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("utilidades", "gerador-senhas")!;
 const faqs = [
-  { question: "O que torna uma senha forte?", answer: "Uma senha forte tem pelo menos 12 caracteres, combina maiúsculas, minúsculas, números e símbolos, não usa palavras do dicionário e é única para cada serviço." },
-  { question: "Como gerenciar senhas fortes?", answer: "Use um gerenciador de senhas como Bitwarden (gratuito) ou 1Password para armazenar senhas fortes sem precisar memorizar todas." },
+  { question: "O que torna uma senha forte?", answer: "Uma senha forte tem pelo menos 12 caracteres, combina maiúsculas, minúsculas, números e símbolos, não usa palavras do dicionário e é única para cada serviço. Uma senha de 16 caracteres com todos os tipos leva bilhões de anos para ser quebrada por força bruta." },
+  { question: "Como gerenciar senhas fortes?", answer: "Use um gerenciador de senhas como Bitwarden (gratuito e open source) ou 1Password para armazenar senhas fortes sem precisar memorizá-las. Você precisa lembrar apenas uma senha mestra para acessar todas as outras. Nunca reutilize a mesma senha em serviços diferentes." },
+  { question: "Por que não devo usar palavras do dicionário na senha?", answer: "Ataques de dicionário testam automaticamente palavras comuns e suas variações (senha123, p@ssword). Mesmo com substituições de letras por números, senhas baseadas em palavras reais são vulneráveis. Uma senha aleatória gerada por computador é exponencialmente mais segura." },
+  { question: "Com que frequência devo trocar minhas senhas?", answer: "Troque imediatamente após suspeitar de vazamento. Para senhas importantes (banco, email principal), a troca anual é recomendada. Use sites como HaveIBeenPwned para verificar se seu e-mail apareceu em vazamentos. Senhas longas e únicas por serviço são mais importantes que trocar frequentemente." },
+  { question: "Esta ferramenta guarda minhas senhas geradas?", answer: "Não. A geração acontece inteiramente no seu navegador usando a API crypto.getRandomValues() — nenhum dado é enviado a servidores. A senha gerada existe apenas na tela e na área de transferência do seu dispositivo. Após fechar ou atualizar a página, ela não pode ser recuperada." },
 ];
 
 const CHARS = {
@@ -65,7 +68,38 @@ export function GeradorSenhas() {
   const strength = password ? getStrength(password) : null;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador usa a API <code className="rounded bg-muted px-1 font-mono text-xs">crypto.getRandomValues()</code> do
+            navegador para gerar números verdadeiramente aleatórios — diferente de Math.random() que
+            usa um algoritmo determinístico. Cada byte da senha é derivado de entropia criptográfica,
+            tornando a senha imprevisível mesmo que o atacante conheça o algoritmo.
+          </p>
+          <p>
+            Configure o comprimento (8-64 caracteres) e quais tipos de caracteres incluir. Uma senha
+            de 16 caracteres com maiúsculas, minúsculas, números e símbolos gera um espaço de busca
+            de aproximadamente 95¹⁶ combinações — computacionalmente inviável de quebrar por força bruta.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Níveis de segurança por configuração</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Fraca (8 chars, só letras):</strong> quebrável em horas</li>
+              <li>• <strong>Boa (12 chars, +números):</strong> segura para uso geral</li>
+              <li>• <strong>Forte (16 chars, todos tipos):</strong> recomendado para contas críticas</li>
+              <li>• <strong>Máxima (24+ chars, todos tipos):</strong> uso em gerenciadores de senha</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

@@ -12,13 +12,23 @@ const tool = getToolBySlug("documentos", "gerador-titulo-eleitor")!;
 const faqs = [
   {
     question: "O que é o Título de Eleitor?",
-    answer:
-      "O Título de Eleitor é o documento que comprova o alistamento eleitoral do cidadão brasileiro. Seu número tem 12 dígitos: 8 sequenciais, 2 de código de estado e 2 verificadores calculados pelo TSE.",
+    answer: "O Título de Eleitor é o documento que comprova o alistamento eleitoral do cidadão brasileiro. Seu número tem 12 dígitos: os 8 primeiros são sequenciais (identificam o eleitor), os dígitos 9 e 10 são o código do estado de alistamento (01=SP, 02=MG... 28=DF), e os 2 últimos são verificadores calculados pelo TSE.",
   },
   {
     question: "Para que serve este gerador?",
-    answer:
-      "Gera números de Título de Eleitor matematicamente válidos para testes de sistemas eleitorais, cadastros de RH e desenvolvimento de software. Os títulos gerados são fictícios e não pertencem a eleitores reais.",
+    answer: "Gera números de Título de Eleitor matematicamente válidos para testes de sistemas eleitorais, cadastros de RH, plataformas de compliance e desenvolvimento de software que validam esse documento. Os títulos gerados são fictícios e não pertencem a eleitores reais cadastrados no TSE.",
+  },
+  {
+    question: "Como funciona o cálculo dos dígitos verificadores do Título de Eleitor?",
+    answer: "O 1º dígito verificador usa os 8 dígitos sequenciais multiplicados pelos pesos [2,3,4,5,6,7,8,9]. O resultado é diferente para SP e MG (estados 01 e 02) vs. demais estados. O 2º dígito usa os 2 dígitos do código de estado e o 1º verificador, com pesos [7,8,9]. Quando o resto é 0, o dígito é 0 ou 1 dependendo do estado.",
+  },
+  {
+    question: "O Título de Eleitor ainda é necessário?",
+    answer: "Desde 2022, a Justiça Eleitoral permite votar com outros documentos (CNH, passaporte, RG). Porém, o Título de Eleitor ainda é exigido em algumas situações: certidão de quitação eleitoral para concursos públicos, participação em licitações, obtenção de passaporte e renovação de CNH (obrigatório provar regularidade eleitoral).",
+  },
+  {
+    question: "Como consultar a situação do meu Título de Eleitor?",
+    answer: "Você pode consultar sua situação eleitoral no portal do TSE (tse.jus.br) ou pelo aplicativo e-Título, disponível para Android e iOS. O e-Título também pode substituir o documento físico nas urnas em muitos municípios, mediante selfie de validação. Para regularizar pendências (justificativas, débitos), acesse também o portal do TSE.",
   },
 ];
 
@@ -105,7 +115,38 @@ export function GeradorTituloEleitor() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria números de Título de Eleitor de 12 dígitos seguindo o algoritmo do TSE:
+            8 dígitos sequenciais + código de estado (01-28) + 2 verificadores. O algoritmo de
+            verificação é diferente para São Paulo (01) e Minas Gerais (02) em relação aos demais
+            estados, por razões históricas.
+          </p>
+          <p>
+            O gerador sorteia aleatoriamente um dos 28 códigos de estado do TSE para cada número
+            gerado, criando títulos de diferentes estados do Brasil. Isso é útil para testar sistemas
+            que validam o dígito verificador de forma distinta por estado.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estrutura do Título de Eleitor</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• Exemplo: 1234 5678 0123</li>
+              <li>• Sequência: 12345678</li>
+              <li>• Código estado: 01 (SP)</li>
+              <li>• Verificadores: 23</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <h2 className="text-lg font-semibold">Gerar Título de Eleitor</h2>

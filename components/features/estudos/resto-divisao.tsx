@@ -38,7 +38,39 @@ export function RestoDivisao() {
   const resto = valido ? a - b * Math.trunc(a / b) : null;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A operação de resto da divisão (módulo, operador <code className="rounded bg-muted px-1 font-mono text-xs">%</code>)
+            retorna o que sobra após a divisão inteira. Para a ÷ b: quociente = Math.trunc(a/b) e
+            resto = a - b × quociente. A ferramenta exibe os três resultados juntos (quociente, resto
+            e indicação de divisibilidade) para máxima utilidade.
+          </p>
+          <p>
+            O módulo é um dos operadores mais úteis na programação: verifica paridade (n % 2 === 0 → par),
+            implementa ciclos (index % length → acesso circular), verifica divisibilidade por qualquer número,
+            e é fundamental em criptografia, geração de hashes e dígitos verificadores.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Aplicações práticas</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• 17 ÷ 5 = quociente 3, resto 2 (17 = 5×3 + 2)</li>
+              <li>• Verificar par: 24 % 2 = 0 → par</li>
+              <li>• Verificar ímpar: 37 % 2 = 1 → ímpar</li>
+              <li>• Dígito verificador CPF usa módulo 11</li>
+              <li>• 100 ÷ 7 = quociente 14, resto 2</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

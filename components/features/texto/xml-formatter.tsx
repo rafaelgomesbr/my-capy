@@ -9,7 +9,13 @@ import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("texto", "xml-formatter")!;
-const faqs = [{ question: "O que é XML?", answer: "XML (eXtensible Markup Language) é uma linguagem de marcação usada para armazenar e transportar dados. É muito usado em integrações e sistemas legados." }];
+const faqs = [
+  { question: "O que é XML?", answer: "XML (eXtensible Markup Language) é uma linguagem de marcação usada para armazenar e transportar dados de forma estruturada. Diferente do HTML (que define como exibir dados), o XML define como os dados são organizados." },
+  { question: "Qual a diferença entre XML e JSON?", answer: "XML usa tags de abertura/fechamento (<tag>valor</tag>) e suporta atributos. JSON usa pares chave-valor e é mais compacto. JSON é preferido em APIs modernas pela leveza. XML ainda domina integrações corporativas (SOAP, BPEL) e formatos como SVG, DOCX e RSS." },
+  { question: "O que é um XML bem formado?", answer: "Um XML bem formado (well-formed) obedece às regras sintáticas: uma única raiz, todas as tags abertas são fechadas, atributos com aspas, e caracteres especiais escapados. Esta ferramenta verifica e formata apenas XMLs bem formados." },
+  { question: "Onde XML ainda é amplamente usado?", answer: "XML é usado em: feeds RSS/Atom de blogs e podcasts, documentos Office (DOCX, XLSX são ZIP de XML), SVG (gráficos vetoriais), configurações Maven/Spring (Java), integrações SOAP/WSDL, NFe fiscal e Sped contábil no Brasil." },
+  { question: "O que são namespaces XML?", answer: "Namespaces (xmlns) evitam conflitos de nomes entre elementos de diferentes vocabulários XML combinados em um único documento. São declarados como atributos xmlns:prefixo=\"URI\" e o prefixo é usado antes dos nomes de elementos (ex: soap:Body)." },
+];
 
 function formatXml(xml: string): string {
   const PADDING = "  ";
@@ -47,7 +53,35 @@ export function XmlFormatter() {
   }, [output]);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O formatador XML reorganiza o XML compacto ou mal indentado adicionando quebras de linha entre
+            os elementos e aplicando indentação proporcional ao nível de aninhamento de cada tag. O resultado
+            é um XML com hierarquia visualmente clara, muito mais fácil de ler e depurar do que a versão
+            minificada.
+          </p>
+          <p>
+            É especialmente útil ao trabalhar com respostas de APIs SOAP, arquivos NFe (Nota Fiscal
+            Eletrônica), feeds RSS, configurações em XML de projetos Java/Maven, ou qualquer XML recebido
+            de um sistema externo que não aplica formatação.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Entrada (compacto)</p>
+            <p className="mt-1 font-mono text-sm text-muted-foreground">{"<pedido><item id='1'><nome>Produto A</nome><qtd>2</qtd></item></pedido>"}</p>
+            <p className="mt-2 font-medium">Saída (formatado)</p>
+            <pre className="mt-1 font-mono text-sm text-primary">{`<pedido>\n  <item id='1'>\n    <nome>Produto A</nome>\n    <qtd>2</qtd>\n  </item>\n</pedido>`}</pre>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

@@ -14,18 +14,23 @@ const tool = getToolBySlug("documentos", "gerador-cartao-credito")!;
 const faqs = [
   {
     question: "O que é o algoritmo Luhn?",
-    answer:
-      "O algoritmo de Luhn (ou fórmula de Luhn) é uma fórmula de soma de verificação usada para validar números de identificação, como cartões de crédito. Ele detecta erros simples de digitação e é usado por todas as principais bandeiras de cartão.",
+    answer: "O algoritmo de Luhn (fórmula de Luhn, 1954) é uma fórmula de soma de verificação que detecta erros simples de digitação em números de identificação. A lógica: percorre o número da direita para a esquerda; posições pares são dobradas (se >9, subtrai 9); soma tudo e verifica se é divisível por 10. Todas as bandeiras principais (Visa, Mastercard, Amex, Elo, Hipercard) usam esse algoritmo.",
   },
   {
     question: "Esses números de cartão funcionam para compras reais?",
-    answer:
-      "Não. Embora os números passem na validação matemática do algoritmo Luhn, eles não estão vinculados a nenhuma conta bancária real e serão recusados por qualquer sistema de pagamento real. São úteis apenas para testes de formulários e sistemas.",
+    answer: "Não. Embora passem na validação matemática do Luhn, os números não estão vinculados a nenhuma conta bancária real e serão recusados imediatamente por qualquer sistema de pagamento. Além do número, uma transação real exige CVV válido, data de validade ativa, dados do portador e autorização da rede do cartão.",
   },
   {
     question: "Para que serve este gerador?",
-    answer:
-      "Este gerador é destinado exclusivamente a desenvolvedores que precisam testar campos de cartão de crédito em formulários, validadores de bandeiras, e sistemas de checkout sem usar dados reais.",
+    answer: "Destinado exclusivamente a desenvolvedores que precisam testar formulários de checkout, validadores de bandeira, máscaras de input de cartão, e fluxos de pagamento em sandboxes. Elimina a necessidade de usar cartões reais em ambientes de desenvolvimento e evita exposição de dados sensíveis.",
+  },
+  {
+    question: "Como identificar a bandeira pelo número do cartão?",
+    answer: "Os primeiros dígitos (BIN/IIN) identificam a bandeira: Visa começa com 4; Mastercard começa com 51-55 ou 2221-2720; Amex começa com 34 ou 37 (e tem 15 dígitos); Elo começa com 636368, 438935 ou outros prefixos específicos. O gerador usa esses prefixos oficiais para gerar números realistas por bandeira.",
+  },
+  {
+    question: "O CVV de 4 dígitos da Amex é diferente?",
+    answer: "Sim. O CVV (Card Verification Value) da Amex tem 4 dígitos e fica na frente do cartão (não no verso). Visa e Mastercard usam 3 dígitos no verso. O Elo também usa 3 dígitos. Essa diferença é importante ao testar formulários que validam o CVV por bandeira. O gerador cria o CVV com o tamanho correto para cada bandeira.",
   },
 ];
 
@@ -135,7 +140,38 @@ export function GeradorCartaoCredito() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador usa o algoritmo Luhn para criar números de cartão matematicamente válidos por
+            bandeira. Cada bandeira tem prefixos (BIN) específicos: Visa começa com 4 e tem 16
+            dígitos; Mastercard começa com 51-55 e tem 16; Amex começa com 34 ou 37 e tem 15 dígitos
+            (com CVV de 4 dígitos no verso). Elo usa prefixo 636368.
+          </p>
+          <p>
+            Além do número, a ferramenta gera uma data de validade aleatória (anos 2026-2030) e CVV
+            com o número correto de dígitos para cada bandeira. Esses dados passam em validações
+            de formulário (Luhn + formato), mas são rejeitados por qualquer gateway de pagamento real.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Prefixos (BIN) por bandeira</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• <strong>Visa:</strong> 4xxx xxxx xxxx xxxx (16 dig.)</li>
+              <li>• <strong>Mastercard:</strong> 5x xx xxxx xxxx xxxx (16 dig.)</li>
+              <li>• <strong>Amex:</strong> 3x xx xxxxxx xxxxx (15 dig., CVV 4)</li>
+              <li>• <strong>Elo:</strong> 636368 xx xxxx xxxx (16 dig.)</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6 space-y-4">

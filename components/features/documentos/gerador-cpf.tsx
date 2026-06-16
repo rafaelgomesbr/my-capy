@@ -15,18 +15,23 @@ const tool = getToolBySlug("documentos", "gerador-cpf")!;
 const faqs = [
   {
     question: "Para que serve este gerador de CPF?",
-    answer:
-      "Este gerador cria números de CPF matematicamente válidos para uso em testes de sistemas, desenvolvimento de software e ambientes de homologação. Os números gerados são fictícios e não pertencem a nenhuma pessoa real.",
+    answer: "Este gerador cria números de CPF matematicamente válidos para uso em testes de sistemas, desenvolvimento de software e ambientes de homologação. Desenvolvedores usam CPFs fictícios para testar validação de formulários, integração com APIs e fluxos de cadastro sem expor dados reais.",
   },
   {
-    question: "Como funciona a validação do CPF?",
-    answer:
-      "O CPF possui dois dígitos verificadores calculados por soma ponderada dos nove primeiros dígitos. O validador verifica se os dígitos informados batem com o cálculo esperado, garantindo que o número segue o padrão da Receita Federal.",
+    question: "Como funciona o cálculo dos dígitos verificadores do CPF?",
+    answer: "O CPF tem 11 dígitos. Os 9 primeiros são a base. O 10º dígito (d1) é calculado pela soma ponderada dos 9 primeiros dígitos com pesos de 10 a 2, dividida por 11 — se o resto for menor que 2, d1=0; caso contrário, d1=11-resto. O 11º dígito (d2) segue o mesmo processo incluindo d1, com pesos de 11 a 2.",
   },
   {
     question: "Posso usar esses CPFs em cadastros reais?",
-    answer:
-      "Não. Os CPFs gerados são fictícios e destinados exclusivamente a testes e desenvolvimento. Usar dados fictícios em cadastros oficiais pode configurar fraude.",
+    answer: "Não. Os CPFs gerados são fictícios e destinados exclusivamente a testes e desenvolvimento. Embora sejam matematicamente válidos, eles não pertencem a nenhuma pessoa real. Usar dados fictícios em cadastros oficiais pode configurar fraude ou falsidade ideológica.",
+  },
+  {
+    question: "O que são CPFs com todos os dígitos iguais?",
+    answer: "CPFs como 111.111.111-11, 222.222.222-22 etc. são inválidos pelas regras da Receita Federal, mesmo que matematicamente o dígito verificador bata. O gerador exclui automaticamente essas combinações. O validador também rejeita esses números como inválidos.",
+  },
+  {
+    question: "Como o validador de CPF funciona?",
+    answer: "O validador extrai os 11 dígitos (ignorando pontos e traços), verifica se não são todos iguais, e recalcula os dois dígitos verificadores usando o mesmo algoritmo da Receita Federal. Se os dígitos calculados batem com os informados, o CPF é válido. Funciona tanto com CPF formatado (xxx.xxx.xxx-xx) quanto apenas com os números.",
   },
 ];
 
@@ -109,7 +114,40 @@ export function GeradorCpf() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria CPFs válidos usando o algoritmo oficial da Receita Federal: gera 9 dígitos
+            aleatórios (excluindo sequências iguais como 111.111.111), calcula o 10º dígito pela soma
+            ponderada com pesos de 10 a 2, e o 11º dígito incluindo o 10º com pesos de 11 a 2.
+          </p>
+          <p>
+            O validador funciona no sentido inverso: recalcula os dígitos verificadores a partir dos 9
+            primeiros dígitos informados e compara com os fornecidos. Aceita CPFs com ou sem formatação
+            (pontos e traços são ignorados na validação).
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo de cálculo do 1º dígito verificador</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              CPF base: 529.982.247
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Soma: 5×10 + 2×9 + 9×8 + 9×7 + 8×6 + 2×5 + 2×4 + 4×3 + 7×2 = 295
+            </p>
+            <p className="mt-1 text-sm text-primary font-semibold">
+              295 % 11 = 9 → d1 = 11 - 9 = 2 ✓
+            </p>
+          </div>
+        </div>
+      }
+    >
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6 space-y-4">

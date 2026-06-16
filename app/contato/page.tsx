@@ -34,6 +34,15 @@ export default function ContatoPage() {
           <p className="text-muted-foreground">
             Encontrou um bug? Tem uma sugestão? Quer fazer parceria? Fale conosco!
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Prefere e-mail direto?{" "}
+            <a
+              href="mailto:rafael.sgomesbr@gmail.com"
+              className="font-medium text-primary hover:underline"
+            >
+              rafael.sgomesbr@gmail.com
+            </a>
+          </p>
         </header>
         <ContactForm />
       </div>

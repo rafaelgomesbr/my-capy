@@ -15,18 +15,23 @@ const tool = getToolBySlug("documentos", "gerador-cnpj")!;
 const faqs = [
   {
     question: "Para que serve este gerador de CNPJ?",
-    answer:
-      "Gera números de CNPJ matematicamente válidos para uso em testes de sistemas, desenvolvimento de software e homologação. Os CNPJs gerados são fictícios e não estão vinculados a nenhuma empresa real.",
+    answer: "Gera números de CNPJ matematicamente válidos para uso em testes de sistemas, desenvolvimento de software e homologação. Útil para testar validação de formulários em e-commerces, sistemas de NF-e, ERPs e integrações com a Receita Federal sem usar CNPJs reais de empresas.",
   },
   {
     question: "Como funciona o cálculo dos dígitos verificadores do CNPJ?",
-    answer:
-      "O CNPJ tem 14 dígitos. Os 8 primeiros identificam a empresa, os 4 seguintes identificam a filial (geralmente 0001), e os 2 últimos são dígitos verificadores calculados por soma ponderada com pesos específicos definidos pela Receita Federal.",
+    answer: "O CNPJ tem 14 dígitos: os 8 primeiros identificam a empresa, os 4 seguintes identificam a filial (geralmente 0001), e os 2 últimos são dígitos verificadores. O 13º usa pesos [5,4,3,2,9,8,7,6,5,4,3,2]; o 14º usa pesos [6,5,4,3,2,9,8,7,6,5,4,3,2]. Se o resto da divisão por 11 for menor que 2, o dígito é 0; caso contrário, é 11-resto.",
   },
   {
     question: "Posso usar esses CNPJs em cadastros reais?",
-    answer:
-      "Não. Os CNPJs gerados são fictícios e destinados exclusivamente a testes e desenvolvimento. Usar dados fictícios em cadastros oficiais pode configurar fraude.",
+    answer: "Não. Os CNPJs gerados são fictícios e destinados exclusivamente a testes e desenvolvimento. Embora matematicamente válidos, eles não pertencem a nenhuma empresa real registrada na Receita Federal. Usar dados fictícios em documentos fiscais ou cadastros oficiais configura fraude.",
+  },
+  {
+    question: "O que significa o sufixo /0001 no CNPJ?",
+    answer: "O sufixo /0001 indica a matriz (sede principal) da empresa. Filiais recebem /0002, /0003 etc. Este gerador cria CNPJs com filial 0001 (matriz). Cada filial tem os mesmos 8 dígitos da empresa mas dígitos verificadores diferentes, calculados sobre o CNPJ completo incluindo o código de filial.",
+  },
+  {
+    question: "Qual a diferença entre CNPJ Alfa e CNPJ numérico?",
+    answer: "O CNPJ Alfa é um novo formato implementado em 2026 pela Receita Federal que inclui letras maiúsculas (A-Z) nos 8 primeiros dígitos, além de números, ampliando drasticamente o universo de combinações possíveis. O formato numérico (o gerado aqui) ainda é o mais comum e aceito em todos os sistemas legados.",
   },
 ];
 
@@ -112,7 +117,38 @@ export function GeradorCnpj() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria CNPJs válidos usando o algoritmo oficial da Receita Federal. A estrutura é:
+            8 dígitos da empresa + 0001 (matriz) + 2 dígitos verificadores. O 13º dígito usa pesos
+            [5,4,3,2,9,8,7,6,5,4,3,2] sobre os 12 primeiros; o 14º usa pesos [6,5,4,3,2,9,8,7,6,5,4,3,2]
+            sobre os 13 primeiros.
+          </p>
+          <p>
+            O validador extrai os 14 dígitos (ignorando pontos, barras e traços), verifica se não são
+            todos iguais, e recalcula ambos os dígitos verificadores. Aceita tanto o formato com
+            máscara (xx.xxx.xxx/xxxx-xx) quanto apenas os 14 números.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estrutura do CNPJ</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• 11.222.333/<strong>0001</strong>-81</li>
+              <li>• Empresa: 11.222.333</li>
+              <li>• Filial: 0001 (sempre = matriz)</li>
+              <li>• Dígitos verificadores: 81</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6 space-y-4">

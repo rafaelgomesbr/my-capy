@@ -9,7 +9,13 @@ import { Input } from "@/components/ui/input";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("utilidades", "validador-email")!;
-const faqs = [{ question: "O que torna um e-mail válido?", answer: "Um e-mail válido tem: local part (antes do @), símbolo @, domínio com pelo menos um ponto, e extensão com 2-6 caracteres. Ex: usuario@dominio.com.br" }];
+const faqs = [
+  { question: "O que torna um e-mail válido?", answer: "Um e-mail válido tem: local part (antes do @), símbolo @, domínio com pelo menos um ponto, e extensão com 2-6 caracteres. Ex: usuario@dominio.com.br. Caracteres especiais como +, -, . e _ são permitidos na parte local." },
+  { question: "O que é um e-mail descartável?", answer: "E-mails descartáveis são endereços temporários criados para evitar spam (ex: mailinator.com, guerrillamail.com). São frequentemente bloqueados em cadastros de serviços, pois o dono não pode ser identificado ou contatado futuramente." },
+  { question: "O validador verifica se o e-mail existe de verdade?", answer: "Não. Este validador verifica apenas o formato do e-mail (sintaxe) e identifica domínios descartáveis conhecidos. Verificar se o endereço realmente existe requer um servidor de e-mail para confirmar a entrega (SMTP verification)." },
+  { question: "O que significa o símbolo + no e-mail?", answer: "O símbolo + (plus addressing) cria variações do mesmo endereço. Ex: joao+loja@gmail.com e joao+banco@gmail.com chegam na caixa de joao@gmail.com. É uma técnica para identificar qual site vendeu seu e-mail ou para criar filtros automáticos." },
+  { question: "E-mails com caracteres acentuados são válidos?", answer: "Tecnicamente, o padrão RFC 6531 permite e-mails com caracteres unicode (acentuados, chineses, etc.), mas na prática a maioria dos servidores e formulários ainda não suporta. Para uso geral, use apenas letras sem acento, números, pontos e underscores." },
+];
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
 const DISPOSABLE = ["mailinator.com", "guerrillamail.com", "trashmail.com", "throwam.com", "temp-mail.org"];
@@ -31,7 +37,39 @@ export function ValidadorEmail() {
   const analysis = email.trim() ? analyzeEmail(email.trim()) : null;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O validador analisa o endereço de e-mail contra a expressão regular RFC 5322, verificando
+            a estrutura correta: parte local (antes do @), o símbolo @ obrigatório, domínio com pelo
+            menos um ponto e extensão com 2 ou mais caracteres. A validação é instantânea conforme
+            você digita.
+          </p>
+          <p>
+            Além da validação de formato, a ferramenta identifica e-mails descartáveis conhecidos
+            (mailinator, guerrillamail etc.) e informa se o domínio pertence a provedores populares
+            como Gmail, Outlook e Yahoo. Útil para validar listas de e-mails e formulários de cadastro.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplos de formatos</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li className="text-emerald-600">✓ usuario@gmail.com</li>
+              <li className="text-emerald-600">✓ joao.silva+filtro@empresa.com.br</li>
+              <li className="text-red-500">✗ usuario@.com (domínio inválido)</li>
+              <li className="text-red-500">✗ @gmail.com (parte local vazia)</li>
+              <li className="text-red-500">✗ usuario@gmail (sem extensão)</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

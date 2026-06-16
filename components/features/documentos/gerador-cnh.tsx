@@ -12,13 +12,23 @@ const tool = getToolBySlug("documentos", "gerador-cnh")!;
 const faqs = [
   {
     question: "Para que serve o gerador de CNH?",
-    answer:
-      "Gera números de CNH (Carteira Nacional de Habilitação) matematicamente válidos para uso em testes de sistemas, desenvolvimento e homologação. O número tem 11 dígitos e os dois últimos são verificadores calculados pelo DETRAN.",
+    answer: "Gera números de CNH (Carteira Nacional de Habilitação) matematicamente válidos para uso em testes de sistemas, desenvolvimento e homologação. Útil para testar campos de CNH em cadastros de locadoras de veículos, despachantes digitais, sistemas de seguros e plataformas de mobilidade.",
   },
   {
     question: "Como funciona o cálculo dos dígitos verificadores da CNH?",
-    answer:
-      "A CNH usa dois dígitos verificadores com algoritmo específico do DETRAN. O primeiro usa pesos decrescentes (9 a 1) sobre os 9 dígitos base, e o segundo usa pesos crescentes (1 a 9). Um fator DSC de 0 ou 2 é aplicado conforme o resultado da primeira soma.",
+    answer: "A CNH usa dois dígitos verificadores com algoritmo do DETRAN. O 1º dígito usa pesos decrescentes (9 a 1) sobre os 9 dígitos base — se o resto for ≥10, aplica-se um fator DSC=2. O 2º dígito usa pesos crescentes (1 a 9) com o mesmo fator DSC. Quando o resultado seria ≥10, o dígito é 0.",
+  },
+  {
+    question: "Qual a estrutura do número da CNH?",
+    answer: "O número da CNH tem 11 dígitos: os 9 primeiros são sequenciais e identificam o registro no DETRAN, e os 2 últimos são dígitos verificadores calculados pelo algoritmo oficial. Diferentemente do CPF, o número da CNH não tem uma formatação visual padrão com pontos e traços — é exibido como sequência numérica contínua.",
+  },
+  {
+    question: "CNH e CPF podem ter o mesmo número?",
+    answer: "Não. São documentos completamente diferentes com numeração independente. O CPF tem 11 dígitos (9 + 2 verificadores) com algoritmo da Receita Federal. A CNH também tem 11 dígitos mas com algoritmo diferente do DETRAN. A coincidência numérica seria apenas casual.",
+  },
+  {
+    question: "Posso usar esses números de CNH em cadastros reais?",
+    answer: "Não. Os números gerados são fictícios e destinados apenas a testes e homologação de sistemas. Embora matematicamente válidos segundo o algoritmo do DETRAN, eles não estão vinculados a nenhum condutor real no RENACH (Registro Nacional de Condutores Habilitados). Usar em documentos oficiais configura fraude.",
   },
 ];
 
@@ -72,7 +82,37 @@ export function GeradorCnh() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria números de CNH com 11 dígitos usando o algoritmo do DETRAN. A estrutura é:
+            9 dígitos base + 2 dígitos verificadores. O 10º usa pesos decrescentes (9 a 1) e um fator
+            DSC (0 ou 2) quando o resto é ≥10. O 11º usa pesos crescentes (1 a 9) com o mesmo DSC.
+          </p>
+          <p>
+            O número da CNH é registrado no RENACH (Registro Nacional de Condutores Habilitados) e
+            aparece na própria carteira. Diferente do CPF, não tem formatação visual com pontos e
+            traços — é exibido como sequência de 11 dígitos contínuos.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estrutura do número de CNH</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• Exemplo: 12345678900</li>
+              <li>• Dígitos base: 123456789</li>
+              <li>• 1º verificador: 0</li>
+              <li>• 2º verificador: 0</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <h2 className="text-lg font-semibold">Gerar CNH</h2>

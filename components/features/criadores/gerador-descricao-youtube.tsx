@@ -12,7 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-descricao-youtube")!;
 const faqs = [
-  { question: "Como escrever uma boa descrição no YouTube?", answer: "Inclua as palavras-chave principais nas primeiras 3 linhas (visíveis sem expandir), links relevantes, timestamps, suas redes sociais e de 3 a 5 hashtags no final." },
+  { question: "Como escrever uma boa descrição no YouTube?", answer: "Inclua as palavras-chave principais nas primeiras 3 linhas (visíveis sem expandir), links relevantes, timestamps, suas redes sociais e de 3 a 5 hashtags no final. As primeiras 150 caracteres são exibidas nas buscas do Google — use-os para convencer o usuário a clicar." },
+  { question: "As palavras-chave na descrição afetam o SEO do YouTube?", answer: "Sim. O algoritmo do YouTube analisa título, tags E descrição para entender do que trata o vídeo. Use palavras-chave naturalmente ao longo do texto — não repita a mesma palavra artificialmente (keyword stuffing). Uma descrição bem escrita melhora a descoberta orgânica." },
+  { question: "Qual o tamanho ideal de descrição no YouTube?", answer: "YouTube permite até 5.000 caracteres. Para SEO, descrições entre 500-800 palavras são consideradas ideais, pois oferecem contexto suficiente para o algoritmo. As primeiras 2-3 linhas são as mais importantes — aparecem sem que o usuário precise clicar em 'mostrar mais'." },
+  { question: "Devo incluir timestamps (capítulos) na descrição?", answer: "Sim, timestamps melhoram a experiência do usuário e criam 'capítulos' automáticos no player. Use o formato 00:00 Introdução, 02:30 Tópico A. Isso também ajuda no SEO, pois o Google pode exibir trechos específicos do vídeo nos resultados de busca." },
+  { question: "Preciso mudar a descrição depois de publicar o vídeo?", answer: "Você pode e deve atualizar as descrições. Adicionar links para vídeos relacionados, corrigir informações desatualizadas ou incluir promoções temporárias são ajustes válidos. Mudanças significativas no conteúdo, porém, podem afetar o ranqueamento temporariamente." },
 ];
 
 export function GeradorDescricaoYoutube() {
@@ -54,7 +58,39 @@ Torne a descrição entre 500-800 palavras para SEO ideal.`;
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria uma descrição completa e otimizada para SEO com 500-800 palavras — o
+            intervalo ideal para o algoritmo do YouTube. A descrição inclui parágrafo de abertura com
+            palavra-chave, resumo detalhado, seções de links e redes sociais, CTA de inscrição e
+            hashtags relevantes.
+          </p>
+          <p>
+            As primeiras 2-3 linhas da descrição são as mais críticas — aparecem nos resultados de
+            busca do Google e YouTube sem que o usuário precise clicar em "mostrar mais". O gerador
+            posiciona a palavra-chave principal nesse trecho para maximizar a relevância e o CTR.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estrutura da descrição gerada</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Abertura:</strong> Palavra-chave + resumo do valor do vídeo (2-3 linhas)</li>
+              <li>• <strong>Sobre este vídeo:</strong> Detalhe dos tópicos abordados</li>
+              <li>• <strong>Links úteis:</strong> Placeholders para você preencher</li>
+              <li>• <strong>Redes sociais:</strong> Seus perfis para divulgação</li>
+              <li>• <strong>Hashtags:</strong> 3-5 hashtags de nicho no final</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

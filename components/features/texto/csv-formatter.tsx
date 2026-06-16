@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("texto", "csv-formatter")!;
-const faqs = [{ question: "O que é CSV?", answer: "CSV (Comma-Separated Values) é um formato de arquivo de texto que usa vírgulas para separar valores em tabelas. É suportado por Excel, Google Sheets e muitos outros sistemas." }];
+const faqs = [
+  { question: "O que é CSV?", answer: "CSV (Comma-Separated Values) é um formato de arquivo de texto simples que usa um caractere delimitador (geralmente vírgula ou ponto e vírgula) para separar os valores de cada coluna, com cada linha representando um registro de dados." },
+  { question: "Por que meu CSV usa ponto e vírgula em vez de vírgula?", answer: "Em países que usam vírgula como separador decimal (como o Brasil), o Excel e outros programas optam pelo ponto e vírgula (;) como delimitador CSV para evitar ambiguidade. Se seu CSV veio do Excel em português, selecione o separador ';'." },
+  { question: "Como abrir CSV no Excel sem problemas de encoding?", answer: "Ao abrir um CSV no Excel: use a guia 'Dados > De texto/CSV', selecione a codificação UTF-8 e o delimitador correto. Abrir diretamente pelo duplo clique frequentemente causa problemas com acentos e separadores." },
+  { question: "O que é um CSV com aspas (quoted CSV)?", answer: "Alguns campos CSV são envolvidos em aspas duplas, especialmente quando o valor contém o próprio delimitador ou quebras de linha. Por exemplo: '\"São Paulo, SP\"' é tratado como um único campo. Esta ferramenta remove as aspas ao visualizar." },
+  { question: "Qual o tamanho máximo de CSV suportado?", answer: "Esta ferramenta processa o CSV no navegador. Para arquivos muito grandes (mais de 1.000 linhas), a renderização da tabela pode ficar lenta. Nesse caso, use um editor especializado como o Excel ou o LibreOffice Calc." },
+];
 
 export function CsvFormatter() {
   const [input, setInput] = useState("");
@@ -24,7 +30,41 @@ export function CsvFormatter() {
   }, [input, separator]);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O visualizador CSV converte texto no formato CSV em uma tabela visual HTML, facilitando a
+            leitura e verificação dos dados. A primeira linha é interpretada como o cabeçalho da tabela.
+            Você pode escolher o separador correto (vírgula, ponto e vírgula ou tab) antes de visualizar.
+          </p>
+          <p>
+            É útil para verificar rapidamente o conteúdo de exportações de planilhas, respostas de APIs,
+            relatórios de sistemas e qualquer dado tabular no formato CSV sem precisar abrir o Excel ou
+            outro software. Também ajuda a identificar problemas de encoding ou separadores incorretos.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo de CSV válido (vírgula)</p>
+            <pre className="mt-2 rounded bg-muted/50 p-2 font-mono text-sm text-muted-foreground">
+              {`nome,email,cidade\nJoão,joao@email.com,São Paulo\nMaria,maria@email.com,Rio de Janeiro`}
+            </pre>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo de CSV brasileiro (ponto e vírgula)</p>
+            <pre className="mt-2 rounded bg-muted/50 p-2 font-mono text-sm text-muted-foreground">
+              {`produto;preco;estoque\nCamiseta;49,90;150\nCalça;89,90;80`}
+            </pre>
+            <p className="mt-2 text-sm text-muted-foreground">Selecione "Ponto e vírgula (;)" como separador ao visualizar este formato.</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

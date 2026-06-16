@@ -83,7 +83,39 @@ export function NumerosRomanos() {
   const arabico_valido = romano !== "" && !Number.isNaN(fromRoman(romano));
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A ferramenta converte números arábicos para romanos e vice-versa em tempo real (bidirecional).
+            O algoritmo de conversão para romano usa a tabela de valores subtrativa (I, IV, V, IX, X, XL,
+            L, XC, C, CD, D, CM, M) para gerar a representação mais curta e correta. O intervalo suportado
+            é de 1 a 3999.
+          </p>
+          <p>
+            A conversão de romano para arábico percorre cada símbolo e verifica se o próximo símbolo
+            tem valor maior (subtração) ou menor/igual (adição), seguindo as regras do sistema subtrativo.
+            Use os botões de referência rápida para ver os valores dos símbolos principais.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Anos em números romanos</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• 2024 = MMXXIV</li>
+              <li>• 1999 = MCMXCIX</li>
+              <li>• 2000 = MM</li>
+              <li>• 1776 = MDCCLXXVI (independência dos EUA)</li>
+              <li>• 476 = CDLXXVI (queda do Império Romano)</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-6">
           <div className="grid gap-6 sm:grid-cols-2">

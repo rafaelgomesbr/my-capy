@@ -13,18 +13,23 @@ const tool = getToolBySlug("documentos", "gerador-pessoas")!;
 const faqs = [
   {
     question: "Para que serve o gerador de pessoas?",
-    answer:
-      "O gerador cria perfis fictícios com nome, CPF, RG, telefone, e-mail e endereço para uso em testes de sistemas, desenvolvimento de software, homologação e ambientes de staging. Permite preencher cadastros sem usar dados reais.",
+    answer: "O gerador cria perfis fictícios completos com nome, CPF, RG, data de nascimento, telefone, e-mail, CEP e endereço para uso em testes de sistemas, desenvolvimento de software, homologação e staging. Permite preencher fluxos completos de cadastro sem usar dados reais, respeitando a LGPD.",
   },
   {
     question: "Os dados gerados são reais?",
-    answer:
-      "Não. Todos os dados são gerados aleatoriamente. O CPF segue o algoritmo oficial para ser matematicamente válido, mas não pertence a nenhuma pessoa real cadastrada na Receita Federal.",
+    answer: "Não. Todos os dados são gerados aleatoriamente. O CPF segue o algoritmo oficial da Receita Federal e passa em validações matemáticas, mas não pertence a nenhuma pessoa real. Os endereços combinam ruas, bairros e cidades reais do Brasil, mas em combinações aleatórias que podem não existir.",
   },
   {
     question: "Posso usar esses dados para testes de sistema?",
-    answer:
-      "Sim, esse é exatamente o propósito. Use em ambientes de desenvolvimento, QA e homologação. Nunca use dados fictícios em sistemas de produção ou cadastros oficiais.",
+    answer: "Sim, esse é exatamente o propósito. Use em ambientes de desenvolvimento, QA e homologação para testar fluxos de cadastro, validação de documentos e formatação de dados sem expor informações reais. Nunca use dados fictícios em sistemas de produção, documentos oficiais ou comunicações externas.",
+  },
+  {
+    question: "Por que usar dados fictícios em vez de dados reais de teste?",
+    answer: "A Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018) exige que dados pessoais reais sejam tratados com cuidados específicos, mesmo em ambientes de teste. Usar dados fictícios elimina esse risco legal, facilita a criação de ambientes isolados e permite compartilhar bases de teste com equipes sem preocupações de privacidade.",
+  },
+  {
+    question: "Quantos campos o perfil completo inclui?",
+    answer: "O gerador completo inclui: nome completo (primeiro nome + 2 sobrenomes), gênero, data de nascimento (1960-2005), CPF validado matematicamente, RG (formato SSP-SP), telefone celular com DDD real, e-mail fictício mas formatado corretamente, CEP e endereço com rua, número, bairro e cidade do Brasil. Cada campo pode ser copiado individualmente ou todos de uma vez.",
   },
 ];
 
@@ -172,7 +177,40 @@ export function GeradorPessoas() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria perfis fictícios completos combinando nomes e sobrenomes brasileiros
+            comuns, com CPF calculado pelo algoritmo da Receita Federal, RG no formato SSP-SP,
+            telefone com DDDs de capitais reais, e-mail fictício com domínio real (gmail, hotmail,
+            yahoo) e endereço com logradouros, bairros e cidades brasileiras reais.
+          </p>
+          <p>
+            Cada campo pode ser copiado individualmente clicando no ícone de cópia, ou copie todos
+            os dados de uma vez com o botão "Copiar Tudo" — ideal para preencher formulários de teste
+            rapidamente. Todos os dados são gerados localmente no navegador; nenhuma informação é
+            enviada a servidores.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo de perfil gerado</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>Nome:</strong> Juliana Ferreira Santos</li>
+              <li>• <strong>CPF:</strong> 529.982.247-25</li>
+              <li>• <strong>Telefone:</strong> (11) 99847-3218</li>
+              <li>• <strong>E-mail:</strong> juliana.ferreira47@gmail.com</li>
+              <li>• <strong>Endereço:</strong> Rua das Flores, 1203, Centro, São Paulo - SP</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6 space-y-4">

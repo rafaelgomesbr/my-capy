@@ -11,8 +11,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("utilidades", "gerador-qr-code")!;
 const faqs = [
-  { question: "Qual tamanho ideal para um QR Code impresso?", answer: "Para impressão: mínimo 2,5cm × 2,5cm. Sempre inclua uma margem branca (quiet zone) de pelo menos 4 módulos ao redor. Teste a leitura antes de imprimir em escala." },
-  { question: "QR Codes expiram?", answer: "QR Codes estáticos (como os gerados aqui) não expiram. QR Codes dinâmicos de serviços pagos podem expirar se a assinatura for cancelada." },
+  { question: "Qual tamanho ideal para um QR Code impresso?", answer: "Para impressão: mínimo 2,5cm × 2,5cm. Para leitura a distância (cartaz, banner), aumente proporcionalmente — 1 metro de distância de leitura exige aproximadamente 8cm de QR Code. Sempre inclua uma margem branca (quiet zone) de pelo menos 4 módulos ao redor para garantir a leitura." },
+  { question: "QR Codes expiram?", answer: "QR Codes estáticos (como os gerados aqui) não expiram — eles codificam o conteúdo diretamente, sem depender de servidores externos. QR Codes dinâmicos de serviços pagos redirecionam para uma URL que pode expirar se a assinatura for cancelada. Os QR Codes gerados aqui são permanentes." },
+  { question: "Como funciona o QR Code de WhatsApp gerado?", answer: "O QR Code de WhatsApp usa o formato wa.me/[número] — quando escaneado, abre automaticamente uma conversa com o número no WhatsApp. Digite o número com o código do país (55 para Brasil) e DDD, sem espaços ou caracteres especiais. Ex: 5511999999999." },
+  { question: "Posso personalizar as cores do QR Code?", answer: "Atualmente, o gerador cria QR Codes em preto e branco padrão, que garantem a máxima legibilidade. Evite inverter as cores (fundo escuro com módulos claros) pois alguns leitores têm dificuldade. Se precisar de cores personalizadas com logotipo, use ferramentas especializadas como o QR Code com nível de correção de erro 'H'." },
+  { question: "Qual a capacidade máxima de dados em um QR Code?", answer: "Um QR Code pode armazenar até 7.089 caracteres numéricos, 4.296 caracteres alfanuméricos ou 2.953 bytes binários. Para URLs curtas e textos simples, isso é mais que suficiente. Quanto mais dados, mais densa e difícil de ler a imagem — mantenha o conteúdo conciso para garantir leitura rápida." },
 ];
 
 const typeLabels: Record<string, string> = {
@@ -81,7 +84,38 @@ export function GeradorQrCode() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador usa a biblioteca open source <em>qrcode</em> para criar QR Codes estáticos
+            diretamente no seu navegador. Suporta 5 tipos de conteúdo: URL/Link (abre no navegador),
+            Texto simples, E-mail (abre cliente de e-mail), Telefone (inicia chamada) e WhatsApp
+            (abre conversa diretamente).
+          </p>
+          <p>
+            O nível de correção de erro M (15%) garante que o QR Code seja legível mesmo com até
+            15% dos módulos danificados ou obstruídos — ideal para uso em materiais impressos.
+            Escolha o tamanho 600×600 para impressão e 300×300 para uso digital.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Casos de uso por tipo</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>URL:</strong> cardápio digital, portfólio, landing page</li>
+              <li>• <strong>WhatsApp:</strong> atendimento direto no número da loja</li>
+              <li>• <strong>E-mail:</strong> contato em cartão de visita</li>
+              <li>• <strong>Texto:</strong> instruções, código de produto, senha Wi-Fi</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

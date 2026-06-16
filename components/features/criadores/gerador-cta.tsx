@@ -12,7 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-cta")!;
 const faqs = [
-  { question: "O que é um CTA eficaz?", answer: "Um CTA (Call to Action) eficaz usa verbos no imperativo, cria urgência ou valor claro e é específico. 'Baixe o guia grátis agora' converte mais que 'Clique aqui'." },
+  { question: "O que é um CTA eficaz?", answer: "Um CTA (Call to Action) eficaz usa verbos no imperativo, cria urgência ou valor claro e é específico. 'Baixe o guia grátis agora' converte muito mais que o genérico 'Clique aqui'. O segredo está em comunicar o benefício imediato da ação." },
+  { question: "Onde devo colocar o CTA em uma landing page?", answer: "O CTA principal deve aparecer acima da dobra (sem rolar a página), com destaque visual (cor contrastante, tamanho maior). Em páginas longas, repita o CTA ao final. Nunca coloque mais de 2-3 CTAs diferentes na mesma página — isso cria paralisia de decisão." },
+  { question: "Qual cor de botão de CTA converte mais?", answer: "Não existe uma cor universalmente melhor — o que funciona é o contraste com o restante da página. Um botão laranja em uma página azul se destaca mais do que um botão azul. A cor deve chamar atenção, não se misturar ao layout." },
+  { question: "Devo usar urgência em todos os CTAs?", answer: "Não abuse da urgência falsa — o consumidor moderno detecta e desconfia. Use urgência apenas quando for real: estoque limitado, desconto por tempo determinado, vagas limitadas. CTAs com valor genuíno ('Economize 40% hoje') convertem melhor que urgência artificial." },
+  { question: "Como testar qual CTA funciona melhor?", answer: "Faça A/B testing: mantenha tudo igual e mude apenas o texto do CTA. Teste variáveis como: verbo ('Comprar' vs 'Quero comprar'), benefício ('Grátis' vs 'Sem custo'), urgência ('Agora' vs 'Hoje'). Com tráfego suficiente (500+ visitantes), você terá dados confiáveis em poucos dias." },
 ];
 
 export function GeradorCta() {
@@ -59,7 +63,38 @@ Regras:
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 8 CTAs (Calls to Action) adaptados ao objetivo e canal escolhidos. A IA
+            usa verbos de ação fortes no imperativo, cria senso de valor ou urgência em algumas opções
+            e varia entre versões curtas (2-5 palavras) e médias (5-10 palavras) para diferentes
+            contextos de uso.
+          </p>
+          <p>
+            O canal importa: CTAs para anúncios pagos são mais diretos e objetivos; CTAs para Instagram
+            pedem engajamento; CTAs para email marketing precisam criar curiosidade. Cada geração é
+            calibrada para o canal selecionado, maximizando a relevância para o formato de mídia.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">CTAs para "Curso de Marketing Digital" — objetivo: conversão</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• "Quero dominar o marketing digital agora"</li>
+              <li>• "Acesse o curso com 50% de desconto hoje"</li>
+              <li>• "Comece sua transformação profissional"</li>
+              <li>• "Inscreva-se — vagas limitadas"</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

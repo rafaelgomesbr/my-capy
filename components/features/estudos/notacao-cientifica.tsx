@@ -9,7 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("estudos", "notacao-cientifica")!;
-const faqs = [{ question: "O que é notação científica?", answer: "É uma forma de escrever números muito grandes ou pequenos. Ex: 3.000.000 = 3 × 10⁶ e 0,000005 = 5 × 10⁻⁶." }];
+const faqs = [
+  { question: "O que é notação científica?", answer: "Notação científica é uma forma compacta de escrever números muito grandes ou muito pequenos. Ex: 3.000.000 = 3 × 10⁶ e 0,000005 = 5 × 10⁻⁶. O número é expresso como M × 10^n, onde 1 ≤ M < 10." },
+  { question: "Como converter número para notação científica?", answer: "Mova a vírgula decimal até que reste apenas um dígito antes dela. O número de casas movidas é o expoente. Se moveu para a esquerda, o expoente é positivo; para a direita, negativo. Ex: 0,00045 → 4,5 × 10⁻⁴." },
+  { question: "Como converter de notação científica para número normal?", answer: "Mova a vírgula decimal pelo número de casas indicado pelo expoente (para a direita se positivo, para a esquerda se negativo). Ex: 6,02 × 10²³ → 602.000.000.000.000.000.000.000." },
+  { question: "Quando usar notação científica?", answer: "É usada em ciência, engenharia e matemática quando os números têm muitos zeros (como distâncias astronômicas, massa de elétrons, número de Avogadro). Facilita cálculos e evita erros de contagem de zeros." },
+  { question: "O que é o número de Avogadro?", answer: "6,022 × 10²³ (aproximadamente 602 sextilhões). É o número de partículas em 1 mol de qualquer substância. Sem notação científica, seria impossível trabalhar com esse número no cotidiano da química." },
+];
 
 export function NotacaoCientifica() {
   const [num, setNum] = useState("");
@@ -21,7 +27,38 @@ export function NotacaoCientifica() {
     ? (parseFloat(mantissa) * Math.pow(10, parseInt(expoente))).toLocaleString("pt-BR", { maximumFractionDigits: 20 }) : "";
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A ferramenta converte números para notação científica (M × 10^n onde 1 ≤ M &lt; 10) e
+            vice-versa. A conversão usa o método nativo do JavaScript (
+            <code className="rounded bg-muted px-1 font-mono text-xs">toExponential(4)</code>), que
+            garante precisão de 4 casas decimais na mantissa.
+          </p>
+          <p>
+            A notação científica é essencial em física, química, astronomia e engenharia para representar
+            grandezas que variam em muitas ordens de magnitude — desde o tamanho de um próton
+            (1,7 × 10⁻¹⁵ m) até a distância à galáxia de Andrômeda (2,537 × 10²² m).
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Constantes físicas em notação científica</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Velocidade da luz: 3 × 10⁸ m/s</li>
+              <li>• Carga do elétron: 1,6 × 10⁻¹⁹ C</li>
+              <li>• Número de Avogadro: 6,022 × 10²³</li>
+              <li>• Massa do próton: 1,67 × 10⁻²⁷ kg</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6">
           <Tabs defaultValue="to">

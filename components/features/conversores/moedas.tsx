@@ -12,8 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("conversores", "conversor-moedas")!;
 const faqs = [
-  { question: "As taxas são em tempo real?", answer: "As taxas são atualizadas a cada hora via API de câmbio. Para operações financeiras reais, consulte seu banco ou corretora autorizada pelo Banco Central." },
-  { question: "Quais moedas estão disponíveis?", answer: "Cobrimos as principais moedas mundiais e latino-americanas: USD, EUR, GBP, ARS, CLP, MXN, CAD, AUD, JPY, CHF, CNY e mais." },
+  { question: "As taxas são em tempo real?", answer: "As taxas são atualizadas periodicamente via API de câmbio. Para operações financeiras reais, consulte seu banco ou corretora autorizada pelo Banco Central, pois as taxas comerciais praticadas incluem spread (margem) sobre a cotação de referência." },
+  { question: "Quais moedas estão disponíveis?", answer: "Cobrimos as principais moedas mundiais e latino-americanas: BRL, USD, EUR, GBP, ARS, CLP, MXN, CAD, AUD, JPY, CHF, CNY, além de PYG, UYU, BOB, PEN e COP." },
+  { question: "Por que o dólar que compro no banco é diferente do mostrado aqui?", answer: "A taxa exibida é a cotação de mercado (PTAX do Banco Central). Bancos e casas de câmbio aplicam um spread sobre essa taxa — geralmente 2-5% — para cobrir seus custos e lucro. A taxa real de compra sempre inclui esse spread." },
+  { question: "O que é PTAX?", answer: "PTAX é a taxa de câmbio oficial do Banco Central do Brasil, calculada como a média ponderada das operações interbancárias do dia. É a referência usada em contratos, importações, exportações e remessas internacionais." },
+  { question: "Como calcular IOF na compra de moeda?", answer: "O IOF sobre compra de moeda estrangeira para viagem é 1,1% para cartão de crédito (reduzido em 2023) e varia para outras modalidades. Sobre o valor final da conversão: Custo total = Valor × Taxa comercial × (1 + spread do banco) × (1 + IOF)." },
 ];
 
 const CURRENCY_NAMES: Record<string, string> = {
@@ -98,7 +101,38 @@ export function ConversorMoedas() {
     : null;
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O conversor de moedas busca cotações via API e usa o Real Brasileiro (BRL) como moeda base
+            interna. Para converter entre quaisquer duas moedas, primeiro converte o valor de origem para
+            BRL e depois para a moeda destino, usando as duas taxas de câmbio. Isso garante consistência
+            em todas as direções.
+          </p>
+          <p>
+            As cotações são de referência e podem diferir das taxas praticadas por bancos e casas de câmbio,
+            que aplicam spread (margem) sobre a taxa de mercado. Para remessas internacionais e compra de
+            moeda, compare as taxas de diferentes instituições — a diferença pode ser significativa.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Custos típicos em viagem aos EUA (R$ 5.000)</p>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>• Taxa de mercado: R$ 5.000 ÷ 5,05 ≈ USD 990</li>
+              <li>• Com spread de 3% (banco): USD 990 ÷ 1,03 ≈ USD 961</li>
+              <li>• Com IOF de 1,1% (cartão): USD 961 ÷ 1,011 ≈ USD 950</li>
+              <li>• Diferença total vs. taxa de mercado: ~USD 40 (4%)</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           {/* Status bar */}

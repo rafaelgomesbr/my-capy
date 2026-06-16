@@ -12,7 +12,11 @@ import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("criadores", "gerador-username")!;
 const faqs = [
-  { question: "O que torna um bom username?", answer: "Um bom username é curto (menos de 15 caracteres), fácil de lembrar, sem caracteres especiais complexos, único e consistente entre plataformas." },
+  { question: "O que torna um bom username?", answer: "Um bom username é curto (menos de 15 caracteres), fácil de lembrar e pronunciar, sem números aleatórios no final, único, e consistente entre plataformas para facilitar a busca da sua marca." },
+  { question: "Por que ter o mesmo username em todas as redes?", answer: "Consistência de marca: quando alguém encontra você em uma plataforma, consegue te encontrar facilmente nas outras. Também protege seu nome de outras pessoas usarem o mesmo handle nas redes onde você ainda não está." },
+  { question: "O username afeta o SEO das redes sociais?", answer: "Sim, especialmente no Instagram e TikTok. O campo 'nome' (em negrito) é indexado nas buscas internas, mas o @username também é relevante. Um username com palavra-chave de nicho pode ajudar na descoberta." },
+  { question: "Posso usar pontos e underscores no username?", answer: "Sim. Instagram permite pontos (.) e underscores (_). TikTok permite underscores e pontos. Twitter permite apenas underscores. LinkedIn não permite símbolos. Evite excessos — @jo.ao_silva_123 é difícil de lembrar." },
+  { question: "O que fazer se o username desejado já está em uso?", answer: "Tente variações: adicionar 'br', 'real', 'hq', 'oficial', 'the' ou uma palavra do seu nicho. Ex: @joaosilva → @joaosilvabr, @joaosilva.fit, @thejoaosilva. Esta ferramenta gera 10 variações para você escolher." },
 ];
 
 export function GeradorUsername() {
@@ -52,7 +56,39 @@ Regras:
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O gerador cria 10 sugestões de username para a rede selecionada, seguindo as regras de
+            cada plataforma (limite de caracteres, caracteres permitidos, estilo). A IA combina seu
+            nome/palavra-chave com prefixos, sufixos e estilos diferentes para criar opções variadas.
+          </p>
+          <p>
+            Todos os usernames gerados seguem as diretrizes básicas: máximo de 15 caracteres, sem
+            espaços, apenas letras, números, pontos e underscores. Após gerar, verifique a
+            disponibilidade diretamente na rede social escolhida, pois a IA não tem acesso em
+            tempo real à disponibilidade.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Estilos de username para "Maria Silva"</p>
+            <ul className="mt-2 space-y-1 font-mono text-sm text-muted-foreground">
+              <li>• Simples: @mariasilva</li>
+              <li>• Com sufixo: @mariasilva.br</li>
+              <li>• Com prefixo: @the.mariasilva</li>
+              <li>• Com nicho: @maria.fitness</li>
+              <li>• Criativo: @mariasilva.hq</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">

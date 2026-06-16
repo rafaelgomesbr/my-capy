@@ -9,7 +9,13 @@ import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("estudos", "equacao-segundo-grau")!;
-const faqs = [{ question: "O que é discriminante (delta)?", answer: "O discriminante Δ = b² - 4ac determina o número de raízes reais. Se Δ > 0: duas raízes distintas. Se Δ = 0: uma raiz dupla. Se Δ < 0: sem raízes reais." }];
+const faqs = [
+  { question: "O que é discriminante (delta)?", answer: "O discriminante Δ = b² - 4ac determina o número de raízes reais. Δ > 0: duas raízes reais e distintas. Δ = 0: uma raiz dupla (x₁ = x₂). Δ < 0: sem raízes reais (raízes complexas)." },
+  { question: "O que é a Fórmula de Bhaskara?", answer: "Bhaskara é o método para encontrar as raízes de qualquer equação do 2° grau: x = (-b ± √Δ) / (2a), onde Δ = b² - 4ac. O ± indica duas raízes — uma com + e outra com -." },
+  { question: "Por que o coeficiente 'a' não pode ser zero?", answer: "Se a = 0, a equação ax² + bx + c = 0 se torna bx + c = 0, que é uma equação de 1° grau, não mais do 2° grau. O coeficiente 'a' define o grau da equação e não pode ser zero." },
+  { question: "Como saber se a parábola abre para cima ou para baixo?", answer: "O sinal de 'a' determina: a > 0 → parábola abre para cima (concavidade para cima, valor mínimo). a < 0 → parábola abre para baixo (concavidade para baixo, valor máximo)." },
+  { question: "Qual é o vértice da parábola?", answer: "O vértice (ponto de máximo ou mínimo) está em x_v = -b/(2a) e y_v = -Δ/(4a). Em Δ = 0, o vértice toca o eixo x. Em Δ < 0, a parábola não cruza o eixo x." },
+];
 
 export function EquacaoSegundoGrau() {
   const [a, setA] = useState("");
@@ -35,7 +41,38 @@ export function EquacaoSegundoGrau() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { maximumFractionDigits: 6 });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A equação do 2° grau tem a forma <strong>ax² + bx + c = 0</strong>. O algoritmo de Bhaskara
+            resolve qualquer equação dessa forma usando o discriminante <strong>Δ = b² - 4ac</strong> e a
+            fórmula <strong>x = (-b ± √Δ) / (2a)</strong>. O sinal ± gera até duas raízes distintas.
+          </p>
+          <p>
+            A ferramenta calcula o delta e, dependendo do seu valor, determina automaticamente se a equação
+            tem duas raízes reais distintas (Δ &gt; 0), uma raiz dupla (Δ = 0) ou nenhuma raiz real
+            (Δ &lt; 0 — raízes complexas, fora do escopo desta calculadora).
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo 1: x² - 5x + 6 = 0</p>
+            <p className="mt-1 text-sm text-muted-foreground">a=1, b=-5, c=6 → Δ = 25 - 24 = 1</p>
+            <p className="mt-1 text-sm text-primary font-semibold">x₁ = 3 | x₂ = 2</p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo 2: x² - 4x + 4 = 0</p>
+            <p className="mt-1 text-sm text-muted-foreground">a=1, b=-4, c=4 → Δ = 16 - 16 = 0</p>
+            <p className="mt-1 text-sm text-primary font-semibold">Raiz dupla: x₁ = x₂ = 2</p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="rounded-lg border bg-muted/30 p-4 text-center font-mono">

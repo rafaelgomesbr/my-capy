@@ -9,7 +9,13 @@ import { Button } from "@/components/ui/button";
 import { getToolBySlug } from "@/lib/tools";
 
 const tool = getToolBySlug("financas", "reserva-emergencia")!;
-const faqs = [{ question: "Quantos meses de reserva de emergência devo ter?", answer: "Para quem tem renda estável (CLT): 3-6 meses de despesas. Para autônomos e empresários: 6-12 meses. A reserva deve ficar em aplicações seguras e líquidas como Tesouro Selic ou CDB com liquidez diária." }];
+const faqs = [
+  { question: "Quantos meses de reserva de emergência devo ter?", answer: "Para quem tem renda estável (CLT): de 3 a 6 meses de despesas mensais. Para autônomos, freelancers e empresários (renda variável): de 6 a 12 meses. Quem tem dependentes ou profissão de recolocação mais difícil deve manter o valor mais alto da faixa." },
+  { question: "Onde guardar a reserva de emergência?", answer: "A reserva deve ficar em aplicações seguras, conservadoras e com liquidez imediata: Tesouro Selic (disponível pelo Tesouro Direto), CDB com liquidez diária de banco grande, Conta remunerada de banco digital ou Fundo DI de taxa zero. Nunca coloque a reserva em renda variável ou aplicações com carência." },
+  { question: "A reserva de emergência deve incluir o valor do aluguel?", answer: "Sim. O cálculo de 'despesas mensais' deve incluir todas as despesas fixas e variáveis: aluguel/financiamento, alimentação, transporte, saúde, educação, contas de consumo, lazer e serviços. Basicamente, tudo que você gasta por mês para manter seu padrão de vida." },
+  { question: "Posso investir antes de ter a reserva completa?", answer: "O ideal é completar a reserva de emergência antes de investir em ativos de maior risco. Sem reserva, qualquer imprevisto pode forçar o resgate antecipado de investimentos com prejuízo. Com renda alta e estabilidade, é possível construir as duas em paralelo." },
+  { question: "Como construir a reserva de emergência rapidamente?", answer: "Defina o valor-alvo com esta calculadora, depois divida por 12 a 18 meses para saber o aporte mensal necessário. Aplique automaticamente logo ao receber o salário (pay yourself first) em um CDB de liquidez diária ou conta remunerada." },
+];
 
 export function ReservaEmergencia() {
   const [despesas, setDespesas] = useState("");
@@ -28,7 +34,48 @@ export function ReservaEmergencia() {
   const fmt = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A reserva de emergência é o alicerce da saúde financeira. Sem ela, qualquer imprevisto —
+            demissão, problema de saúde, carro quebrado — pode levar a dívidas caras ou ao resgate
+            precoce de investimentos de longo prazo. A calculadora mostra três faixas: mínimo (para
+            se manter operacional), ideal (recomendado para o seu perfil) e máximo (conservador).
+          </p>
+          <p>
+            O critério de 3-6 meses para CLT e 6-12 meses para autônomos reflete a diferença no tempo
+            médio de recolocação e na estabilidade de renda. O valor deve ser baseado nas{" "}
+            <strong>despesas mensais reais</strong>, não na renda — inclua aluguel, alimentação,
+            transporte, saúde, educação e todas as despesas recorrentes do mês.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Profissional CLT</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Despesas mensais: R$ 4.000 | Perfil: CLT (renda fixa)
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Mínimo: R$ 12.000 (3 meses) | Ideal: R$ 24.000 (6 meses)
+            </p>
+          </div>
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Exemplo: Autônomo / Freelancer</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Despesas mensais: R$ 5.500 | Perfil: Autônomo (renda variável)
+            </p>
+            <p className="mt-2 font-semibold text-primary">
+              Mínimo: R$ 33.000 (6 meses) | Ideal: R$ 49.500 (9 meses) | Máximo: R$ 66.000 (12 meses)
+            </p>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="space-y-4 p-6">
           <div className="grid gap-4 sm:grid-cols-2">
