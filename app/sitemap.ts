@@ -21,12 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const toolPages: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: `${BASE_URL}/ferramentas/${tool.category}/${tool.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: tool.popular ? 0.9 : 0.7,
-  }));
+  const toolPages: MetadataRoute.Sitemap = tools
+    .filter((tool) => !(tool.category === "documentos" && tool.slug.startsWith("gerador-")))
+    .map((tool) => ({
+      url: `${BASE_URL}/ferramentas/${tool.category}/${tool.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: tool.popular ? 0.9 : 0.7,
+    }));
 
   return [...staticPages, ...categoryPages, ...toolPages];
 }

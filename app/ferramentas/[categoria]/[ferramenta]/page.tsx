@@ -378,6 +378,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const tool = getToolBySlug(categoria, ferramenta);
   if (!tool) return { title: "Ferramenta não encontrada" };
   const meta = getToolMetadata(tool);
+  if (categoria === "documentos" && ferramenta.startsWith("gerador-")) {
+    return { ...meta, robots: { index: false, follow: false } };
+  }
   return meta;
 }
 
