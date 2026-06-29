@@ -4,7 +4,7 @@ import { getCategoryBySlug } from "./categories";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mycapy.app";
 const SITE_NAME = "MyCapy";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/opengraph-image`;
 
 export function getToolMetadata(tool: Tool): Metadata {
   const title = `${tool.name} — Grátis e Online`;

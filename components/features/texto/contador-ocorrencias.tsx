@@ -13,12 +13,27 @@ const faqs = [
   {
     question: "O que é correspondência exata de palavra?",
     answer:
-      "Com a opção ativada, o termo só é contado quando aparece como palavra completa, separada por espaços ou pontuação. Por exemplo, buscar 'casa' não contaria 'casamento'. Sem a opção, qualquer ocorrência da sequência é contada.",
+      "Com a opção 'Palavra inteira' ativada, o termo só é contado quando aparece como palavra completa, delimitada por espaços ou pontuação (usando \\b de boundary no regex). Por exemplo, buscar 'casa' não contaria 'casamento' nem 'descasa'. Sem a opção, qualquer ocorrência da sequência de caracteres é contada.",
   },
   {
     question: "Como funciona o ranking de palavras?",
     answer:
-      "Quando nenhum termo é informado, a ferramenta tokeniza o texto, remove pontuação e exibe as 20 palavras mais frequentes com sua contagem e percentual em relação ao total de palavras.",
+      "Quando nenhum termo é informado, a ferramenta tokeniza o texto (divide em palavras), remove pontuação, converte para minúsculas e conta a frequência de cada token. Exibe as 20 palavras mais frequentes com contagem absoluta e percentual em relação ao total de palavras do texto — útil para análise de densidade de palavras-chave.",
+  },
+  {
+    question: "O que significa 'sensível a maiúsculas'?",
+    answer:
+      "Quando ativado, 'Casa', 'casa' e 'CASA' são contados como termos diferentes. Desativado (padrão), a busca ignora diferença entre maiúsculas e minúsculas: 'Casa' e 'casa' somam ao mesmo contador. Para análise de redação e texto em português, manter desativado geralmente dá resultados mais úteis.",
+  },
+  {
+    question: "Qual a diferença entre contar ocorrências e contar palavras?",
+    answer:
+      "Contar palavras (como o Contador de Palavras desta plataforma) informa quantas palavras únicas o texto tem. Contar ocorrências de um termo específico diz quantas vezes aquela palavra ou frase aparece — útil para verificar densidade de palavras-chave em textos SEO, encontrar repetições excessivas ou verificar compliance com guias de estilo.",
+  },
+  {
+    question: "Posso buscar frases inteiras, não só palavras?",
+    answer:
+      "Sim. O campo de busca aceita qualquer sequência de caracteres, incluindo frases com espaços. Por exemplo, buscar 'política de privacidade' contará quantas vezes essa sequência exata aparece no texto. A opção 'Palavra inteira' se aplica apenas à borda das extremidades da frase, não às palavras internas.",
   },
 ];
 
@@ -85,7 +100,37 @@ export function ContadorOcorrencias() {
   }, [texto, termo, caseSensitive, palavraInteira]);
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A ferramenta tem dois modos: <strong>busca por termo</strong> e <strong>ranking automático</strong>.
+            No modo de busca, usa expressão regular com flags configuráveis (case-insensitive, word boundary)
+            para contar e destacar todas as ocorrências do termo no texto. No modo de ranking (sem termo),
+            tokeniza o texto, remove pontuação e exibe as 20 palavras mais frequentes com barra visual proporcional.
+          </p>
+          <p>
+            O destaque visual mostra exatamente onde cada ocorrência foi encontrada, facilitando a revisão
+            do texto e a identificação de repetições indesejadas ou de palavras-chave sub-utilizadas.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium mb-2">Casos de uso</p>
+            <ul className="space-y-1 text-sm text-muted-foreground">
+              <li>• <strong>SEO:</strong> Verificar quantas vezes a palavra-chave principal aparece em um artigo</li>
+              <li>• <strong>Redação:</strong> Encontrar repetições excessivas de um termo</li>
+              <li>• <strong>Jurídico:</strong> Contar quantas vezes um nome ou cláusula aparece em um contrato</li>
+              <li>• <strong>Programação:</strong> Contar ocorrências de uma variável ou função em código-fonte</li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6 space-y-4">

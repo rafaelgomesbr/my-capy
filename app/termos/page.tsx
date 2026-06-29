@@ -16,7 +16,7 @@ export default function TermosPage() {
       <div className="mx-auto max-w-3xl">
         <header className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Termos de Uso</h1>
-          <p className="text-sm text-muted-foreground">Última atualização: 15/06/2025</p>
+          <p className="text-sm text-muted-foreground">Última atualização: 16/06/2026</p>
         </header>
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
           <section>

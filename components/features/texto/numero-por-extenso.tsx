@@ -15,17 +15,27 @@ const faqs = [
   {
     question: "Até que valor o conversor funciona?",
     answer:
-      "O conversor suporta números de até 999 bilhões (999.999.999.999), cobrindo a maioria dos casos de uso práticos como contratos, cheques e documentos financeiros.",
+      "O conversor suporta números de até 999 bilhões (999.999.999.999), cobrindo a maioria dos casos de uso práticos como contratos, cheques e documentos financeiros. Para valores maiores, como trilhões, a conversão não está disponível pois são raros em documentos cotidianos.",
   },
   {
     question: "O conversor suporta valores com centavos?",
     answer:
-      "Sim. Ao digitar um número decimal como 1234,56, o conversor retorna 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos'.",
+      "Sim. Ao digitar um número decimal como 1234,56 (usando vírgula ou ponto), o conversor retorna 'Mil duzentos e trinta e quatro reais e cinquenta e seis centavos'. O valor é arredondado para 2 casas decimais, como na escrita monetária oficial brasileira.",
   },
   {
     question: "Para que serve converter número por extenso?",
     answer:
-      "A escrita por extenso é obrigatória em cheques, contratos e documentos legais no Brasil para evitar fraudes e garantir clareza no valor expresso.",
+      "A escrita por extenso é obrigatória em cheques bancários (exigência legal no Brasil), contratos de compra e venda, procurações, testamentos e outros documentos legais. O objetivo é evitar fraudes por alteração do valor numérico e garantir clareza jurídica do valor expresso.",
+  },
+  {
+    question: "Por que 'cem' vira 'cento' antes de outros números?",
+    answer:
+      "Em português, 'cem' é usado apenas para o número exato 100. Quando há outros dígitos depois (101, 110, etc.), usa-se 'cento': cento e um, cento e dez. Da mesma forma, 'duzentos' pode virar 'duzentas' quando o substantivo é feminino, mas em valores monetários usa-se sempre o masculino: 'duzentos reais'.",
+  },
+  {
+    question: "A ferramenta funciona com números negativos?",
+    answer:
+      "Sim. Ao digitar -500, o resultado é 'Menos quinhentos reais'. Em contratos, valores negativos raramente aparecem, mas a função é útil para planilhas, sistemas contábeis e situações onde se precisa expressar débitos ou variações negativas por extenso.",
   },
 ];
 
@@ -126,7 +136,46 @@ export function NumeroPorExtenso() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            O algoritmo divide o número em grupos de milhar (bilhões / milhões / milhares / centenas)
+            e converte cada grupo independentemente, depois os une com &quot;e&quot;. Para centenas, usa-se
+            a tabela: 100=cem, 101-199=cento, 200=duzentos, 300=trezentos... 900=novecentos.
+            Para dezenas menores que 20, cada número tem extenso próprio (onze, doze, treze...).
+          </p>
+          <p>
+            Valores decimais são separados pela vírgula ou ponto: a parte inteira recebe &quot;reais&quot;
+            e os centavos recebem &quot;centavo/centavos&quot;. O limite de 999 bilhões cobre todos os casos
+            práticos de documentos financeiros brasileiros.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium mb-2">Exemplos de conversão</p>
+            <div className="space-y-2 text-sm">
+              <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+                <span className="font-mono text-muted-foreground">1</span>
+                <span>Um real</span>
+                <span className="font-mono text-muted-foreground">100</span>
+                <span>Cem reais</span>
+                <span className="font-mono text-muted-foreground">1.234,56</span>
+                <span>Mil duzentos e trinta e quatro reais e cinquenta e seis centavos</span>
+                <span className="font-mono text-muted-foreground">1.000.000</span>
+                <span>Um milhão de reais</span>
+                <span className="font-mono text-muted-foreground">-500</span>
+                <span>Menos quinhentos reais</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

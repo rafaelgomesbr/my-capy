@@ -14,17 +14,27 @@ const faqs = [
   {
     question: "O que são acentos e diacríticos?",
     answer:
-      "Acentos e diacríticos são marcas gráficas adicionadas às letras para indicar pronúncia, como á, é, ê, ã, ç, ú, etc. São comuns no português, espanhol, francês e muitos outros idiomas.",
+      "Acentos e diacríticos são marcas gráficas adicionadas às letras para indicar pronúncia, como á, é, ê, ã, ç, ú, etc. São comuns no português, espanhol, francês e muitos outros idiomas. Tecnicamente, são chamados de 'combining diacritical marks' no padrão Unicode — caracteres separados que se combinam visualmente com a letra base.",
   },
   {
-    question: "Para que serve remover acentos?",
+    question: "Para que serve remover acentos de um texto?",
     answer:
-      "Remover acentos é útil para normalizar texto antes de comparações, criar URLs amigáveis (slugs), exportar dados para sistemas que não suportam UTF-8, e padronizar nomes em bancos de dados legados.",
+      "Remover acentos é útil em vários cenários técnicos: criar URLs amigáveis (slugs) para posts e produtos, normalizar texto antes de comparações em bancos de dados, exportar dados para sistemas legados que não suportam UTF-8, padronizar nomes de arquivos em sistemas de arquivos antigos, gerar usernames e logins sem caracteres especiais.",
   },
   {
-    question: "O que é um slug?",
+    question: "O que é um slug e quando usá-lo?",
     answer:
-      "Slug é uma versão do texto com apenas letras minúsculas, números e hífens, sem espaços ou caracteres especiais. É amplamente usado em URLs de posts, produtos e categorias.",
+      "Slug é uma versão simplificada do texto com apenas letras minúsculas, números e hífens, sem espaços ou caracteres especiais. É o formato padrão de URLs em sistemas como WordPress, Shopify e a maioria dos CMSes. Exemplo: 'Política de Privacidade' vira 'politica-de-privacidade'. A opção 'Converter para Slug' desta ferramenta aplica exatamente essa transformação.",
+  },
+  {
+    question: "Como funciona tecnicamente a remoção de acentos?",
+    answer:
+      "O método mais robusto é usar Unicode NFD (Normalization Form Decomposed): decompõe cada caractere acentuado nos seus componentes (letra base + diacrítico), depois remove os diacríticos com regex. Por exemplo, 'ã' vira 'a' + '̃' → remove '̃' → 'a'. O JavaScript oferece string.normalize('NFD') para isso, que é o método que esta ferramenta usa.",
+  },
+  {
+    question: "A ferramenta preserva espaços e pontuação?",
+    answer:
+      "No modo 'Remover Acentos', sim — apenas os caracteres acentuados são substituídos pela letra base, mantendo espaços, pontuação e maiúsculas. No modo 'Converter para Slug', o texto também é convertido para minúsculas, espaços viram hífens e toda pontuação é removida, gerando uma string URL-safe.",
   },
 ];
 
@@ -69,7 +79,51 @@ export function RemoverAcentos() {
   };
 
   return (
-    <ToolLayout tool={tool} faqs={faqs}>
+    <ToolLayout
+      tool={tool}
+      faqs={faqs}
+      explanation={
+        <div className="space-y-3">
+          <p>
+            A ferramenta usa a normalização Unicode NFD (Normalization Form Decomposed) via
+            <code className="mx-1 rounded bg-muted px-1 py-0.5 font-mono text-sm">string.normalize(&apos;NFD&apos;)</code>
+            para decompor cada letra acentuada em seus componentes individuais (letra base + marca diacrítica),
+            depois remove as marcas com uma expressão regular. Isso cobre todos os caracteres do
+            português, espanhol, francês, alemão e outros idiomas latinos.
+          </p>
+          <p>
+            O modo <strong>Slug</strong> vai além: converte para minúsculas, substitui espaços e
+            caracteres não-alfanuméricos por hífens, e remove hífens extras no início e fim —
+            gerando strings prontas para URLs.
+          </p>
+        </div>
+      }
+      examples={
+        <div className="space-y-3">
+          <div className="rounded-lg border p-4">
+            <p className="font-medium mb-2">Exemplos de conversão</p>
+            <div className="space-y-2 text-sm font-mono">
+              <div className="flex gap-4">
+                <span className="text-muted-foreground w-48">São Paulo — Ação</span>
+                <span>→ Sao Paulo — Acao</span>
+              </div>
+              <div className="flex gap-4">
+                <span className="text-muted-foreground w-48">Política de Privacidade</span>
+                <span>→ Politica de Privacidade</span>
+              </div>
+              <div className="flex gap-4">
+                <span className="text-muted-foreground w-48">Política de Privacidade (slug)</span>
+                <span>→ politica-de-privacidade</span>
+              </div>
+              <div className="flex gap-4">
+                <span className="text-muted-foreground w-48">João & Maria 2024!</span>
+                <span>→ joao-maria-2024 (slug)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    >
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-2">

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { BreadcrumbNav } from "@/components/seo/breadcrumb-nav";
-import { Zap, Shield, Globe, Heart, Users, Target, Clock, Star } from "lucide-react";
+import { JsonLd } from "@/components/seo/json-ld";
+import { Zap, Shield, Globe, Heart, Users, Target, Clock, Star, Mail, Code2 } from "lucide-react";
 import { SITE_URL } from "@/lib/seo";
 import { tools } from "@/lib/tools";
 import { categories } from "@/lib/categories";
@@ -26,9 +27,28 @@ const stats = [
   { icon: Star, label: "Sem cadastro necessário", value: "100%" },
 ];
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "MyCapy",
+  url: SITE_URL,
+  description:
+    "Plataforma brasileira de ferramentas online gratuitas: calculadoras financeiras, conversores, ferramentas de texto e muito mais.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: "rafael.sgomesbr@gmail.com",
+    availableLanguage: "Portuguese",
+  },
+  foundingDate: "2025",
+  areaServed: "BR",
+  inLanguage: "pt-BR",
+};
+
 export default function SobrePage() {
   return (
     <Container as="main" className="py-12">
+      <JsonLd data={organizationJsonLd} />
       <BreadcrumbNav items={[{ label: "Sobre" }]} className="mb-8" />
       <div className="mx-auto max-w-3xl">
         <header className="mb-12 text-center">
@@ -144,6 +164,37 @@ export default function SobrePage() {
               <strong className="text-foreground">Utilidades:</strong> Gerador de QR Code, senhas seguras,
               validador de e-mail, calculadora de idades e datas, sorteador e gerador de nomes.
             </p>
+          </div>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="mb-6 text-2xl font-bold">Quem mantém o MyCapy</h2>
+          <div className="rounded-xl border p-6 flex flex-col sm:flex-row gap-6">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <Code2 className="h-7 w-7 text-primary" />
+            </div>
+            <div className="space-y-2 text-muted-foreground">
+              <p>
+                O MyCapy é desenvolvido e mantido por um desenvolvedor brasileiro independente apaixonado
+                por criar produtos que resolvam problemas reais do cotidiano. O projeto é construído com
+                Next.js, TypeScript e Tailwind CSS, com foco total em performance, acessibilidade e
+                experiência do usuário.
+              </p>
+              <p>
+                Toda decisão de produto é guiada por uma pergunta simples: <em>&quot;Isso resolve um problema
+                real de forma mais rápida e simples do que qualquer alternativa existente?&quot;</em> Se a resposta
+                for sim, a ferramenta entra no MyCapy.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <Mail className="h-4 w-4 shrink-0" />
+                <a
+                  href="mailto:rafael.sgomesbr@gmail.com"
+                  className="text-primary hover:underline underline-offset-4 font-medium"
+                >
+                  rafael.sgomesbr@gmail.com
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 

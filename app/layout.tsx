@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { CookieBanner } from "@/components/shared/cookie-banner";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -80,6 +81,7 @@ export default function RootLayout({
           <Header />
           <div id="main-content" className="flex-1">{children}</div>
           <Footer />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

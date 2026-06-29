@@ -6,6 +6,7 @@ import { AdMiddle } from "@/components/ads/ad-middle";
 import { AdBottom } from "@/components/ads/ad-bottom";
 import { FAQSection } from "./faq-section";
 import { RelatedTools } from "./related-tools";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Separator } from "@/components/ui/separator";
 import { getRelatedTools } from "@/lib/tools";
 import { getCategoryBySlug } from "@/lib/categories";
@@ -28,8 +29,21 @@ export function ToolLayout({ tool, faqs = [], children, explanation, examples }:
     { label: tool.name },
   ];
 
+  const faqJsonLd = faqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
+
   return (
     <Container as="main" className="py-8">
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
       <BreadcrumbNav items={breadcrumbs} className="mb-6" />
 
       <AdTop />
