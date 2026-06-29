@@ -69,6 +69,11 @@ const homeJsonLd = buildGraphJsonLd([
     url: SITE_URL,
     description: "Mais de 90 ferramentas gratuitas online para facilitar o seu dia a dia.",
     inLanguage: "pt-BR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/ferramentas?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   },
   {
     "@type": "Organization",

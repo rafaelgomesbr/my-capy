@@ -74,6 +74,16 @@ Torne a descrição entre 500-800 palavras para SEO ideal.`;
             busca do Google e YouTube sem que o usuário precise clicar em "mostrar mais". O gerador
             posiciona a palavra-chave principal nesse trecho para maximizar a relevância e o CTR.
           </p>
+          <p>
+            O algoritmo do YouTube usa a descrição de três formas distintas: para classificar o vídeo
+            em buscas internas, para sugerir o vídeo no painel lateral como recomendação, e para
+            decidir se o vídeo aparece em resultados do Google. A palavra-chave principal deve estar
+            nas primeiras 25 palavras e ser repetida 2-3 vezes ao longo do texto de forma natural.
+            Timestamps (capítulos) na descrição têm duplo benefício: melhoram a retenção do
+            espectador — que pula para a parte relevante em vez de abandonar o vídeo — e criam
+            fragmentos indexáveis que podem aparecer individualmente nos resultados de busca do
+            Google, amplificando o alcance orgânico do vídeo.
+          </p>
         </div>
       }
       examples={

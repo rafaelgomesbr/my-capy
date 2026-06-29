@@ -72,6 +72,15 @@ Regras:
             serão os slogans. A IA evita slogans genéricos e tenta criar opções que sejam únicas ao
             seu posicionamento. Combine slogans de estilos diferentes para criar variações por campanha.
           </p>
+          <p>
+            Pesquisas sobre memorização de marca mostram que slogans com 3 a 5 palavras têm taxa de
+            recall 40% superior a slogans longos. Outro fator crítico é o uso de ritmo ou aliteração
+            — padrões sonoros que facilitam a fixação na memória ("Red Bull te dá asas", "Bom mesmo
+            é Kaiser"). Antes de adotar um slogan, teste-o com pessoas do seu público: peça que
+            tentem repeti-lo 24 horas depois. Se a maioria lembrar, é um bom candidato. Também
+            verifique se o slogan pode ser traduzido sem perder o sentido, caso a marca tenha planos
+            de expansão internacional.
+          </p>
         </div>
       }
       examples={

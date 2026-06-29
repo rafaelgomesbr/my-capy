@@ -74,6 +74,15 @@ Regras:
             menos, mas mais precisas. Clique em uma hashtag individual para copiá-la, ou use o botão
             para copiar todas de uma vez.
           </p>
+          <p>
+            A eficácia das hashtags está diretamente ligada à proporção entre o volume de publicações
+            e o seu número de seguidores. Criadores com menos de 10 mil seguidores devem evitar
+            hashtags com mais de 1 milhão de publicações — a competição é alta demais e o post some
+            em segundos. O foco deve ser em hashtags de nicho (10K–200K publicações), onde o
+            engajamento é real e o algoritmo entende exatamente para qual audiência distribuir o
+            conteúdo. Hashtags com mais de 500K são úteis apenas para complementar a descoberta
+            geral, não para ser o foco da estratégia.
+          </p>
         </div>
       }
       examples={

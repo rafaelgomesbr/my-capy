@@ -72,6 +72,15 @@ Retorne apenas os títulos, um por linha, sem numeração ou explicações.`;
             vocabulário e os gatilhos para ressoar com aquele grupo específico. Copie o título
             preferido clicando no ícone de copiar ao lado de cada um.
           </p>
+          <p>
+            Estudos de click-through rate (CTR) de grandes veículos de conteúdo mostram padrões
+            consistentes: títulos com números específicos performam 36% melhor que títulos genéricos;
+            perguntas aumentam o CTR em 15%; e títulos entre 50–65 caracteres são ideais para SEO
+            (não cortam nos resultados do Google). O gatilho de "curiosity gap" — revelar parte da
+            informação mas não toda — é o mais poderoso em plataformas como YouTube e newsletters,
+            onde o usuário decide em menos de 2 segundos se vai clicar. Ter sempre ao menos 3 versões
+            de título para testar é a prática padrão em criação de conteúdo profissional.
+          </p>
         </div>
       }
       examples={

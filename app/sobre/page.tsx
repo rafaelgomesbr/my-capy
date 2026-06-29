@@ -185,13 +185,22 @@ export default function SobrePage() {
                 real de forma mais rápida e simples do que qualquer alternativa existente?&quot;</em> Se a resposta
                 for sim, a ferramenta entra no MyCapy.
               </p>
-              <div className="flex items-center gap-2 pt-1">
-                <Mail className="h-4 w-4 shrink-0" />
+              <div className="flex flex-wrap items-center gap-4 pt-1">
                 <a
                   href="mailto:rafael.sgomesbr@gmail.com"
-                  className="text-primary hover:underline underline-offset-4 font-medium"
+                  className="flex items-center gap-2 text-primary hover:underline underline-offset-4 font-medium"
                 >
+                  <Mail className="h-4 w-4 shrink-0" />
                   rafael.sgomesbr@gmail.com
+                </a>
+                <a
+                  href="https://github.com/rafaelgomesbr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline underline-offset-4 font-medium"
+                >
+                  <Code2 className="h-4 w-4 shrink-0" />
+                  github.com/rafaelgomesbr
                 </a>
               </div>
             </div>

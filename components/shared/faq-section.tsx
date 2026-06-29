@@ -1,9 +1,3 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { FAQItem } from "@/types";
 
 interface FAQSectionProps {
@@ -19,18 +13,14 @@ export function FAQSection({ faqs, title = "Perguntas Frequentes" }: FAQSectionP
       <h2 id="faq-heading" className="mb-6 text-2xl font-bold">
         {title}
       </h2>
-      <Accordion className="w-full">
+      <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <AccordionItem key={index} value={`item-${index}`}>
-            <AccordionTrigger className="text-left font-medium">
-              {faq.question}
-            </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground">
-              {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
+          <div key={index} className="rounded-lg border p-5">
+            <h3 className="font-semibold text-base leading-snug">{faq.question}</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+          </div>
         ))}
-      </Accordion>
+      </div>
     </section>
   );
 }

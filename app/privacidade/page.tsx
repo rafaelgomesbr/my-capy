@@ -22,7 +22,7 @@ export default function PrivacidadePage() {
           <section>
             <h2>1. Informações que coletamos</h2>
             <p>O {SITE_NAME} foi desenvolvido com foco total na privacidade dos usuários. <strong>Não coletamos dados pessoais identificáveis</strong> para o funcionamento das ferramentas. Todos os cálculos e processamentos são realizados localmente no seu navegador.</p>
-            <p>Podemos coletar dados anônimos de uso através de ferramentas de analytics (Google Analytics) para melhorar a experiência do usuário, como:</p>
+            <p>Podemos coletar dados de navegação de forma anônima e agregada para melhorar a experiência do usuário. Esses dados incluem informações como:</p>
             <ul>
               <li>Páginas mais acessadas</li>
               <li>Tempo médio de sessão</li>

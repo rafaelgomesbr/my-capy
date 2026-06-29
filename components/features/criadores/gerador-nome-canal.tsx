@@ -73,6 +73,15 @@ Regras:
             sofisticadas. Inclua seu nome se quiser opções personalizadas — a IA vai combiná-lo
             criativamente com o tema.
           </p>
+          <p>
+            Um bom nome de canal deve passar em três testes: (1) <strong>teste do boca a boca</strong>
+            — você consegue ditar o nome por telefone sem soletrar? (2) <strong>teste do esquecimento</strong>
+            — uma pessoa que ouviu o nome uma vez consegue buscá-lo no YouTube 3 dias depois?
+            (3) <strong>teste do nicho</strong> — o nome sugere o tema do canal sem precisar de
+            contexto adicional? Canais como "Manual do Mundo", "Nerdologia" e "Pirula" passam nos
+            três testes. Evite nomes que incluam palavras genéricas como "canal", "oficial" ou "tv"
+            — além de não acrescentarem personalidade, dificultam a busca e reduzem a memorabilidade.
+          </p>
         </div>
       }
       examples={

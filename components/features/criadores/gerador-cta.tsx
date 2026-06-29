@@ -79,6 +79,15 @@ Regras:
             pedem engajamento; CTAs para email marketing precisam criar curiosidade. Cada geração é
             calibrada para o canal selecionado, maximizando a relevância para o formato de mídia.
           </p>
+          <p>
+            A psicologia por trás de CTAs eficazes envolve três princípios fundamentais: especificidade
+            ("Baixe o guia de 47 páginas" converte mais que "Baixe o guia"), benefício imediato
+            (o usuário deve entender o que ganha em menos de 3 palavras) e baixa fricção ("Ver
+            demonstração grátis" converte mais que "Comprar agora"). Testes A/B conduzidos por
+            plataformas de e-mail marketing mostram que trocar a primeira pessoa — "Quero meu desconto"
+            em vez de "Clique aqui" — pode aumentar a taxa de clique em até 90%. O CTA ideal tem no
+            máximo 5 palavras e usa verbos no infinitivo ou imperativo com complemento de benefício.
+          </p>
         </div>
       }
       examples={

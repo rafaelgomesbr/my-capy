@@ -72,6 +72,16 @@ Regras:
             disponibilidade diretamente na rede social escolhida, pois a IA não tem acesso em
             tempo real à disponibilidade.
           </p>
+          <p>
+            A consistência de username entre plataformas é mais importante do que ter o username
+            perfeito em uma só delas. Quando alguém te menciona no Instagram e outra pessoa
+            procura no TikTok ou LinkedIn, encontrar o mesmo @handle é fundamental para não
+            perder audiência entre canais. O padrão recomendado é verificar disponibilidade em ao
+            menos 5 plataformas antes de decidir — ferramentas como Namechk fazem isso
+            simultaneamente. Usernames com números aleatórios ao final (@joao8734) prejudicam
+            a percepção de marca estabelecida; prefira variações com sufixos de nicho ou regional
+            como "br", "real", "oficial" ou "hq".
+          </p>
         </div>
       }
       examples={

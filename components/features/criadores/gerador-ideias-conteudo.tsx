@@ -83,6 +83,16 @@ Retorne apenas as 12 ideias no formato indicado, sem introdução ou conclusão.
             Clique no ícone de copiar ao lado de cada ideia para usar como pauta. Gere novamente para
             obter um novo conjunto de 12 ideias diferentes — cada geração usa um ângulo diferente.
           </p>
+          <p>
+            Profissionais de marketing de conteúdo usam a regra 70-20-10 para equilibrar os tipos de
+            pauta: 70% de conteúdo educativo ou de entretenimento (o que mantém a audiência), 20% de
+            conteúdo de relacionamento (bastidores, histórias pessoais, enquetes) e 10% de conteúdo
+            comercial (lançamentos, promoções, vendas). Essa proporção mantém o engajamento alto sem
+            cansar o público com excesso de auto-promoção. O maior erro de criadores iniciantes é
+            inverter essa proporção — muito conteúdo comercial e pouco educativo — o que gera
+            unfollow em massa. Use as 12 ideias geradas para montar um calendário editorial balanceado
+            seguindo essa regra.
+          </p>
         </div>
       }
       examples={

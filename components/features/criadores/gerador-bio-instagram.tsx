@@ -73,6 +73,15 @@ Regras:
             será a bio gerada. O campo de profissão/nicho é obrigatório. Copie a versão que mais
             combina com seu perfil e ajuste ao seu gosto pessoal.
           </p>
+          <p>
+            Uma bio bem construída segue a estrutura: <strong>quem você é → o que você faz → para
+            quem → prova social → CTA</strong>. Cada elemento ocupa de 2 a 3 palavras. Por exemplo:
+            "Coach de Finanças | Ajudo CLTs a sair das dívidas | +1.200 alunos | 👇 Acesso grátis."
+            O campo "nome" do perfil (exibido em negrito nas buscas) deve conter sua palavra-chave
+            principal, pois é o único campo indexado internamente pelo Instagram. Perfis que usam
+            o nicho no campo nome têm até 3× mais chances de aparecer em buscas orgânicas dentro da
+            plataforma.
+          </p>
         </div>
       }
       examples={

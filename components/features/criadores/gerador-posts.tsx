@@ -78,6 +78,16 @@ Retorne apenas os posts, sem títulos ou explicações.`;
             Instagram, 3.000 no LinkedIn, e fio de 3 tweets no Twitter/X. Escolha o tom de voz que
             melhor representa sua marca — de educativo a provocativo.
           </p>
+          <p>
+            Posts de alto engajamento compartilham uma estrutura em comum chamada AIDA adaptada para
+            redes sociais: <strong>Gancho</strong> (primeira linha que para o scroll — uma afirmação
+            ousada, número surpreendente ou pergunta direta), <strong>Corpo</strong> (2-4 pontos com
+            valor prático real, sem enrolação), <strong>Prova</strong> (dado, resultado ou exemplo
+            concreto que valida o que foi dito) e <strong>CTA</strong> (ação específica para o
+            leitor tomar). No Instagram, quebre o texto em linhas curtas — parágrafos de 1-2 linhas
+            são mais fáceis de ler em telas mobile e aumentam o tempo de leitura, que o algoritmo
+            interpreta como sinal de qualidade.
+          </p>
         </div>
       }
       examples={
