@@ -25,6 +25,16 @@ const faqs = [
     answer:
       "Números romanos ainda são usados em relógios analógicos, capítulos de livros, séculos (século XXI), eventos como olimpíadas e Super Bowl, e em créditos de filmes para indicar o ano de produção.",
   },
+  {
+    question: "O zero existe no sistema de numeração romano?",
+    answer:
+      "Não. O sistema romano não possui representação para o zero. O conceito de zero como número foi desenvolvido independentemente por civilizações indiana e maia, e chegou à Europa apenas na Idade Média via matemática árabe. Essa ausência limitava operações matemáticas avançadas na Roma Antiga.",
+  },
+  {
+    question: "Como ler séculos e anos históricos em romanos?",
+    answer:
+      "Séculos: o século XX vai de 1900 a 1999, o XXI de 2000 a 2099. Para anos: 2024 = MMXXIV (MM=2000, XX=20, IV=4). Datas históricas famosas: 1492 = MCDXCII (descoberta da América), 1822 = MDCCCXXII (independência do Brasil).",
+  },
 ];
 
 const romanNumerals: [number, string][] = [

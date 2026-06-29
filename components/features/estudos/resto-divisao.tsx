@@ -25,6 +25,16 @@ const faqs = [
     answer:
       "Em matemática, o resto é sempre não-negativo. Em algumas linguagens de programação, o resultado do módulo com negativos pode variar. Esta ferramenta segue a convenção matemática padrão.",
   },
+  {
+    question: "Como o módulo 11 é usado no dígito verificador do CPF?",
+    answer:
+      "O CPF usa aritmética modular para validar seus dígitos verificadores (os dois últimos). Cada dígito dos 9 primeiros é multiplicado por pesos decrescentes, os produtos são somados e o resultado é calculado mod 11. Se o resto for 0 ou 1, o dígito é 0; senão, é 11 menos o resto. O processo se repete para o segundo dígito verificador.",
+  },
+  {
+    question: "Qual a diferença entre módulo em Python e JavaScript?",
+    answer:
+      "Com números positivos, o resultado é idêntico. Com negativos, Python usa resto sempre positivo do sinal do divisor (-7 % 3 = 2), enquanto JavaScript usa o sinal do dividendo (-7 % 3 = -1). Esta ferramenta usa apenas inteiros positivos para evitar ambiguidade.",
+  },
 ];
 
 export function RestoDivisao() {

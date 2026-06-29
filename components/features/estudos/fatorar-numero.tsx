@@ -25,6 +25,16 @@ const faqs = [
     answer:
       "Número primo é aquele que possui exatamente dois divisores: 1 e ele mesmo. Exemplos: 2, 3, 5, 7, 11, 13... O número 2 é o único primo par.",
   },
+  {
+    question: "Como a fatoração é usada na criptografia?",
+    answer:
+      "A criptografia RSA, usada em HTTPS e certificados digitais, baseia sua segurança na dificuldade de fatorar o produto de dois números primos gigantes (centenas de dígitos). Multiplicar dois primos é fácil; encontrar os fatores do resultado é computacionalmente inviável sem os fatores originais.",
+  },
+  {
+    question: "Como verificar se um número é divisível por outro sem calcular?",
+    answer:
+      "Se a fatoração de A contém todos os fatores de B (com expoentes iguais ou maiores), então A é divisível por B. Exemplo: 360 = 2³ × 3² × 5, então 360 é divisível por 12 (= 2² × 3) pois 360 contém 2² e 3¹ como subconjunto.",
+  },
 ];
 
 function fatorar(n: number): number[] {
